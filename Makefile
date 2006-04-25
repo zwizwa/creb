@@ -1,23 +1,20 @@
 include Makefile.config
 
 all: 
-	make -C system
 	make -C modules
 	make -C modules++
 
 	rm -f $(LIBNAME)
-	$(CXX) $(LIBFLAGS) -o $(LIBNAME) system/*.o modules/*.o modules++/*.o -lm
+	$(CXX) $(LIBFLAGS) -o $(LIBNAME) modules/*.o modules++/*.o -lm
 
 clean:
-	make -C include clean
 	make -C modules clean
 	make -C modules++ clean
-	make -C system clean
 	rm -f $(LIBNAME)
 	rm -f *~
 
 tags:
-	etags --language=auto include/*.h system/*.c modules/*.c modules++/*.cpp
+	etags --language=auto */*.c */*.h */*.cpp
 
 tagsclean:
 	rm -f TAGS

@@ -8,8 +8,10 @@ current: ead~.o ear~.o eadsr~.o dist~.o \
 	junction~.o fdn~.o bwin~.o eblosc~.o bitsplit~.o sbosc~.o \
 	blocknorm~.o resofilt~.o scrollgrid1D~.o \
 	\
-	dwt.o cmath.o
-# last two contain more than one object
+	dwt.o cmath.o \
+	\
+	envelope_util.o setup.o
+
 
 clean:
 	rm -f *.o
