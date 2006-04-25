@@ -103,11 +103,14 @@ static t_int *tabreadmix_tilde_perform(t_int *w)
 
 	    /* mix and write */
 	    newpos = (int)(*pos++);
-	    *out++ = currgain * buf[x->x_currpos++] + prevgain * buf[x->x_prevpos++];
+	    *out++ = currgain * buf[x->x_currpos++] 
+		+ prevgain * buf[x->x_prevpos++];
 	    
 	    /* advance oscillator */
-	    c =  x->x_xfade_state_c * x->x_xfade_cos -  x->x_xfade_state_s * x->x_xfade_sin;
-	    s =  x->x_xfade_state_c * x->x_xfade_sin +  x->x_xfade_state_s * x->x_xfade_cos;
+	    c =   x->x_xfade_state_c * x->x_xfade_cos 
+		- x->x_xfade_state_s * x->x_xfade_sin;
+	    s =   x->x_xfade_state_c * x->x_xfade_sin 
+		+ x->x_xfade_state_s * x->x_xfade_cos;
 	    x->x_xfade_state_c = c;
 	    x->x_xfade_state_s = s;
 	}

@@ -79,7 +79,8 @@ static void bdiag_reset(t_bdiag *x)
 
 
 
-static void bdiag_eigen(t_bdiag *x, t_floatarg index, t_floatarg aval, t_floatarg bval)
+static void bdiag_eigen(t_bdiag *x, t_floatarg index, 
+			t_floatarg aval, t_floatarg bval)
 {
   int i = (int)index;
   if (i<0) return;
@@ -90,7 +91,8 @@ static void bdiag_eigen(t_bdiag *x, t_floatarg index, t_floatarg aval, t_floatar
 }
 
 /* set decay time and frequency of pole at index */
-static void bdiag_timefreq(t_bdiag *x, t_floatarg index, t_floatarg time, t_floatarg freq)
+static void bdiag_timefreq(t_bdiag *x, t_floatarg index, 
+			   t_floatarg time, t_floatarg freq)
 {
   float r,a,b,n;
   float sr = sys_getsr() / (float)x->x_ctl.c_order;
@@ -213,7 +215,8 @@ static void bdiag_dsp(t_bdiag *x, t_signal **sp)
 	}
       
            
-      dsp_add(bdiag_perform, 4, &x->x_ctl, sp[0]->s_n, sp[0]->s_vec, sp[1]->s_vec);
+      dsp_add(bdiag_perform, 4, &x->x_ctl, sp[0]->s_n, 
+	      sp[0]->s_vec, sp[1]->s_vec);
     }
 
 }
@@ -266,8 +269,11 @@ void bdiag_tilde_setup(void)
     class_addmethod(bdiag_class, (t_method)bdiag_reset, gensym("reset"), 0);
     class_addmethod(bdiag_class, (t_method)bdiag_dsp, gensym("dsp"), 0); 
 
-    class_addmethod(bdiag_class, (t_method)bdiag_eigen, gensym("eigen"), A_DEFFLOAT, A_DEFFLOAT, A_DEFFLOAT, 0); 
-    class_addmethod(bdiag_class, (t_method)bdiag_timefreq, gensym("timefreq"), A_DEFFLOAT, A_DEFFLOAT, A_DEFFLOAT, 0); 
-    class_addmethod(bdiag_class, (t_method)bdiag_preset, gensym("preset"), A_DEFFLOAT, 0); 
+    class_addmethod(bdiag_class, (t_method)bdiag_eigen, gensym("eigen"), 
+		    A_DEFFLOAT, A_DEFFLOAT, A_DEFFLOAT, 0); 
+    class_addmethod(bdiag_class, (t_method)bdiag_timefreq, gensym("timefreq"), 
+		    A_DEFFLOAT, A_DEFFLOAT, A_DEFFLOAT, 0); 
+    class_addmethod(bdiag_class, (t_method)bdiag_preset, gensym("preset"), 
+		    A_DEFFLOAT, 0); 
 }
 

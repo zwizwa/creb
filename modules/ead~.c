@@ -119,7 +119,8 @@ static void ead_free(void)
 
 
 /* constructor */
-static void *ead_new(t_floatarg attack, t_floatarg decay, t_floatarg sustain, t_floatarg release)
+static void *ead_new(t_floatarg attack, t_floatarg decay, 
+		     t_floatarg sustain, t_floatarg release)
 {
     /* create instance */
     t_ead *x = (t_ead *)pd_new(ead_class);
@@ -150,7 +151,9 @@ void ead_tilde_setup(void)
     class_addmethod(ead_class, (t_method)ead_start, gensym("start"), 0);
     class_addmethod(ead_class, (t_method)ead_start, gensym("bang"), 0);
     class_addmethod(ead_class, (t_method)ead_dsp, gensym("dsp"), 0); 
-    class_addmethod(ead_class, (t_method)ead_attack, gensym("attack"), A_FLOAT, 0);
-    class_addmethod(ead_class, (t_method)ead_decay, gensym("decay"), A_FLOAT, 0);
+    class_addmethod(ead_class, (t_method)ead_attack,
+		    gensym("attack"), A_FLOAT, 0);
+    class_addmethod(ead_class, (t_method)ead_decay,
+		    gensym("decay"), A_FLOAT, 0);
 }
 

@@ -3,7 +3,7 @@ LIBNAME = @LIBNAME@
 LIBFLAGS = @LIBFLAGS@
 
 prefix=@prefix@
-CREB_VERSION = 0.9.0
+CREB_VERSION = 0.9.1
 
 DEFS = -DPD -DCREB_VERSION=\"$(CREB_VERSION)\"
 CFLAGS = $(DEFS) -O2 -funroll-loops -fomit-frame-pointer \

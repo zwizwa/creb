@@ -132,12 +132,13 @@ void eadsr_free(void)
 
 t_class *eadsr_class;
 
-void *eadsr_new(t_floatarg attack, t_floatarg decay, t_floatarg sustain, t_floatarg release)
+void *eadsr_new(t_floatarg attack, t_floatarg decay, 
+		t_floatarg sustain, t_floatarg release)
 {
     t_eadsr *x = (t_eadsr *)pd_new(eadsr_class);
     inlet_new(&x->x_obj, &x->x_obj.ob_pd, gensym("float"), gensym("attack"));  
     inlet_new(&x->x_obj, &x->x_obj.ob_pd, gensym("float"), gensym("decay"));  
-    inlet_new(&x->x_obj, &x->x_obj.ob_pd, gensym("float"), gensym("sustain"));     
+    inlet_new(&x->x_obj, &x->x_obj.ob_pd, gensym("float"), gensym("sustain"));
     inlet_new(&x->x_obj, &x->x_obj.ob_pd, gensym("float"), gensym("release"));
     outlet_new(&x->x_obj, gensym("signal")); 
 
@@ -156,16 +157,23 @@ void eadsr_tilde_setup(void)
 {
     //post("eadsr~ v0.1");
     eadsr_class = class_new(gensym("eadsr~"), (t_newmethod)eadsr_new,
-    	(t_method)eadsr_free, sizeof(t_eadsr), 0,  A_DEFFLOAT, A_DEFFLOAT, A_DEFFLOAT, A_DEFFLOAT, 0);
-    class_addmethod(eadsr_class, (t_method)eadsr_float, gensym("float"), A_FLOAT, 0);
-    class_addmethod(eadsr_class, (t_method)eadsr_start, gensym("start"), 0);
+    	(t_method)eadsr_free, sizeof(t_eadsr), 0,  A_DEFFLOAT, 
+			    A_DEFFLOAT, A_DEFFLOAT, A_DEFFLOAT, 0);
+    class_addmethod(eadsr_class, (t_method)eadsr_float,
+		    gensym("float"), A_FLOAT, 0);
+    class_addmethod(eadsr_class, (t_method)eadsr_start,
+		    gensym("start"), 0);
     class_addmethod(eadsr_class, (t_method)eadsr_start, gensym("bang"), 0);
     class_addmethod(eadsr_class, (t_method)eadsr_stop, gensym("stop"), 0);
     class_addmethod(eadsr_class, (t_method)eadsr_dsp, gensym("dsp"), 0); 
-    class_addmethod(eadsr_class, (t_method)eadsr_attack, gensym("attack"), A_FLOAT, 0);
-    class_addmethod(eadsr_class, (t_method)eadsr_decay, gensym("decay"), A_FLOAT, 0);
-    class_addmethod(eadsr_class, (t_method)eadsr_sustain, gensym("sustain"), A_FLOAT, 0);
-    class_addmethod(eadsr_class, (t_method)eadsr_release, gensym("release"), A_FLOAT, 0);
+    class_addmethod(eadsr_class, (t_method)eadsr_attack,
+		    gensym("attack"), A_FLOAT, 0);
+    class_addmethod(eadsr_class, (t_method)eadsr_decay,
+		    gensym("decay"), A_FLOAT, 0);
+    class_addmethod(eadsr_class, (t_method)eadsr_sustain,
+		    gensym("sustain"), A_FLOAT, 0);
+    class_addmethod(eadsr_class, (t_method)eadsr_release,
+		    gensym("release"), A_FLOAT, 0);
 
 
 }
