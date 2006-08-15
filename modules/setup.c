@@ -36,6 +36,10 @@ void blocknorm_tilde_setup(void);
 void resofilt_tilde_setup(void);
 void scrollgrid1D_tilde_setup(void);
 
+#ifndef CREB_VERSION
+#define CREB_VERSION "externals cvs"
+#endif
+
 
 void creb_setup(void)
 {
