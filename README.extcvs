@@ -1,0 +1,15 @@
+if you need to change anything to the source files here, let me know at <tom@goto10.org>
+i assume i can overwrite with my own version, without too much checking.
+
+the main darcs archive for creb is at
+
+	http://zwizwa.goto10.org/darcs/creb
+
+i update like this:
+
+* update from darcs tree
+* update from sourceforge cvs
+* briefly look over changes, take mine as master
+* commit darcs + sourceforge
+
+
