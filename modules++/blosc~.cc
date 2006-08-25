@@ -88,7 +88,7 @@ static inline u32 _float_to_phase(float f){return ((u32)(f * 4294967296.0f)) & ~
 
 
 /* flat table: better for linear interpolation */
-static inline float _play_voice_lint(float *table, int *index, float frac, float scale)
+static inline float _play_voice_lint(float *table, t_int *index, float frac, float scale)
 {
     int i = *index;
 
