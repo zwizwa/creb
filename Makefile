@@ -27,3 +27,15 @@ install:
 	install -m 644 doc/*.pd $(prefix)/lib/pd/doc/5.reference
 	install -d $(prefix)/lib/pd/doc/creb
 	install -m 644 doc/examples/*.pd $(prefix)/lib/pd/doc/creb
+
+
+bootstrap:
+	. bootstrap
+
+# snapshot after release
+snapshot: bootstrap
+	bin/dist-snapshot -d
+
+# release
+release: bootstrap
+	bin/dist-snapshot
