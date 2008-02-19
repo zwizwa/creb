@@ -36,6 +36,5 @@ bootstrap:
 snapshot: bootstrap
 	bin/dist-snapshot -d
 
-# release
-release: bootstrap
-	bin/dist-snapshot
+# to make a release, increment the version number in darcs and run
+# 	bin/dist-snapshot
