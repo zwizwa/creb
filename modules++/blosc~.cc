@@ -471,7 +471,7 @@ static void blosc_dsp(t_blosc *x, t_signal **sp)
   int n = sp[0]->s_n;
 
   /* set sampling rate scaling for phasors */
-  x->x_ctl.c_phase_inc_scale = 4.0f * (float)(1<<(LPHASOR-2)) / sys_getsr();
+  x->x_ctl.c_phase_inc_scale = 4.0f * (float)(1L<<(LPHASOR-2)) / sys_getsr();
 
 
   /* setup & register the correct process routine depending on the waveform */
