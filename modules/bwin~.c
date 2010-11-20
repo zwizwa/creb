@@ -157,7 +157,7 @@ static void *window_new(t_symbol *s)
     return (x);
 }
 
-void window_tilde_setup(void)
+void bwin_tilde_setup(void)
 {
     window_class = class_new(gensym("bwin~"), 
 			     (t_newmethod)window_new, (t_method)window_free,
