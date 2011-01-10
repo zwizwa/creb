@@ -27,7 +27,7 @@ void ffpoly_setup(void);
 void fwarp_setup(void);
 void junction_tilde_setup(void);
 void fdn_tilde_setup(void);
-void window_tilde_setup(void);
+void bwin_tilde_setup(void);
 void blosc_tilde_setup(void);
 void cmath_tilde_setup(void);
 void bitsplit_tilde_setup(void);
@@ -35,6 +35,7 @@ void sbosc_tilde_setup(void);
 void blocknorm_tilde_setup(void);
 void resofilt_tilde_setup(void);
 void scrollgrid1D_tilde_setup(void);
+void sawtooth_tilde_setup(void);
 
 #ifndef CREB_VERSION
 #define CREB_VERSION "externals cvs"
@@ -67,7 +68,7 @@ void creb_setup(void)
   lattice_tilde_setup();
   junction_tilde_setup();
   fdn_tilde_setup();
-  window_tilde_setup();
+  bwin_tilde_setup();
   blosc_tilde_setup();
   cmath_tilde_setup();
   bitsplit_tilde_setup();
@@ -75,7 +76,7 @@ void creb_setup(void)
   blocknorm_tilde_setup();
   resofilt_tilde_setup();
   scrollgrid1D_tilde_setup();
-
+  sawtooth_tilde_setup();
 
   /* setup other objects */
   ratio_setup();
