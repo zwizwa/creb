@@ -120,7 +120,7 @@ void *sawtooth_new(void)
 
 void sawtooth_tilde_setup(void)
 {
-    post("sawtooth~ v0.1");
+    // post("sawtooth~ v0.1");
     sawtooth_class = class_new(gensym("sawtooth~"), (t_newmethod)sawtooth_new,
     	(t_method)sawtooth_free, sizeof(t_sawtooth), 0, 0);
 
