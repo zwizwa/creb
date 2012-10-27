@@ -43,8 +43,8 @@ typedef struct diag
 } t_diag;
 
 
-static float randfloat(void){
-  float r = rand ();
+static t_float randfloat(void){
+  t_float r = rand ();
   r /= (RAND_MAX/2);
   r -= 1;
   return r;
@@ -62,15 +62,15 @@ static void diag_eigen(t_diag *x, t_floatarg index, t_floatarg val)
 /* set decay time of pole at index */
 static void diag_time(t_diag *x, t_floatarg index, t_floatarg time)
 {
-  float r;
+  t_float r;
 
   /* time in ms */
   time *= 0.001;
 
-  if (time < 0.0f) time = 0.0f;
-  r = pow(0.001f, (float)x->x_ctl.c_order / (time * sys_getsr()));
-  if (r < 0.0f) r = 0.0f;
-  if (r > 1.0f) r = 1.0f;
+  if (time < 0.0) time = 0.0;
+  r = pow(0.001, (t_float)x->x_ctl.c_order / (time * sys_getsr()));
+  if (r < 0.0) r = 0.0;
+  if (r > 1.0) r = 1.0;
 
   diag_eigen(x, index, r);
 }
@@ -105,8 +105,8 @@ static t_int *diag_perform(t_int *w)
 {
 
 
-  t_float *in     = (float *)(w[3]);
-  t_float *out    = (float *)(w[4]);
+  t_float *in     = (t_float *)(w[3]);
+  t_float *out    = (t_float *)(w[4]);
   t_diagctl *ctl  = (t_diagctl *)(w[1]);
 
   t_float *eigen = ctl->c_eigen;

@@ -1,9 +1,6 @@
 /*
  *   tabreadmix.c  -  an overlap add tabread~ clone
- *
  *   Copyright (c) 2000-2003 by Tom Schouten
- *   Additional code (audiorate, wrap messages) copyright (c) 2008 by
- *   Damian Stewart, damian [at] frey [dot] co [dot] nz
  *
  *   This program is free software; you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -30,28 +27,21 @@ typedef struct _tabreadmix_tilde
 {
     t_object x_obj;
     int x_npoints;
-    float *x_vec;
+    t_float *x_vec;
     t_symbol *x_arrayname;
-    float x_f;
+    t_float x_f;
 
     /* file position vars */
-    float x_currpos;
-    float x_prevpos;
-    float x_posinc;
+    int x_currpos;
+    int x_prevpos;
     
     /* cross fader state vars */
     int x_xfade_size;
     int x_xfade_phase;
-    float x_xfade_cos;
-    float x_xfade_sin;
-    float x_xfade_state_c;
-    float x_xfade_state_s;
-    
-    /* wrap start and end */
-    int x_wrap_start;
-    int x_wrap_end;
-    int x_wrap_length;
-    
+    t_float x_xfade_cos;
+    t_float x_xfade_sin;
+    t_float x_xfade_state_c;
+    t_float x_xfade_state_s;
 
 } t_tabreadmix_tilde;
 
@@ -59,21 +49,20 @@ typedef struct _tabreadmix_tilde
 
 inline void tabreadmix_tilde_wrapindices(t_tabreadmix_tilde *x)
 {
+    int max;
 
     /* modulo */
-    while ( x->x_currpos > x->x_wrap_end )
-	x->x_currpos -= x->x_wrap_length;
-    while ( x->x_prevpos > x->x_wrap_end )
-	x->x_prevpos -= x->x_wrap_length;
+    x->x_currpos %= x->x_npoints;
+    x->x_prevpos %= x->x_npoints;
 
     /* make sure 0<=..<x->x_npoints */
     //if (x->x_currpos < 0) x->x_currpos += x->x_npoints;
     //if (x->x_prevpos < 0) x->x_prevpos += x->x_npoints;
     x->x_currpos += (x->x_currpos < 0) * x->x_npoints;
     x->x_prevpos += (x->x_prevpos < 0) * x->x_npoints;
-    
-    
+
 }
+
 
 
 #define min(x,y) ((x)<(y)?(x):(y))
@@ -85,16 +74,15 @@ static t_int *tabreadmix_tilde_perform(t_int *w)
     t_float *out = (t_float *)(w[3]);
     int n = (int)(w[4]);    
     int maxxindex;
-    float *buf = x->x_vec;
+    t_float *buf = x->x_vec;
     int i;
-    float currgain, prevgain;
-    float c,s;
+    t_float currgain, prevgain;
+    t_float c,s;
     int chunk;
     int leftover;
     int newpos = (int)*pos;
 
-//    maxxindex = x->x_npoints;
-    maxxindex = x->x_wrap_end;
+    maxxindex = x->x_npoints;
     if (!buf) goto zero;
     if (maxxindex <= 0) goto zero;
 
@@ -107,21 +95,22 @@ static t_int *tabreadmix_tilde_perform(t_int *w)
 
 	for (i = 0; i < chunk; i++){
 	    /* compute crossfade gains from oscillator state */
-	    currgain = 0.5f - x->x_xfade_state_c;
-	    prevgain = 0.5f + x->x_xfade_state_c;
+	    currgain = 0.5 - x->x_xfade_state_c;
+	    prevgain = 0.5 + x->x_xfade_state_c;
 	    
 	    /* check indices & wrap */
 	    tabreadmix_tilde_wrapindices(x);
 
 	    /* mix and write */
 	    newpos = (int)(*pos++);
-	    *out++ = currgain * buf[(int)x->x_currpos] + prevgain * buf[(int)x->x_prevpos];	    
-	    x->x_currpos += x->x_posinc;
-	    x->x_prevpos += x->x_posinc;
+	    *out++ = currgain * buf[x->x_currpos++] 
+		+ prevgain * buf[x->x_prevpos++];
 	    
 	    /* advance oscillator */
-	    c =  x->x_xfade_state_c * x->x_xfade_cos -  x->x_xfade_state_s * x->x_xfade_sin;
-	    s =  x->x_xfade_state_c * x->x_xfade_sin +  x->x_xfade_state_s * x->x_xfade_cos;
+	    c =   x->x_xfade_state_c * x->x_xfade_cos 
+		- x->x_xfade_state_s * x->x_xfade_sin;
+	    s =   x->x_xfade_state_c * x->x_xfade_sin 
+		+ x->x_xfade_state_s * x->x_xfade_cos;
 	    x->x_xfade_state_c = c;
 	    x->x_xfade_state_s = s;
 	}
@@ -135,8 +124,8 @@ static t_int *tabreadmix_tilde_perform(t_int *w)
 	if (x->x_xfade_size == x->x_xfade_phase){
 	    x->x_prevpos = x->x_currpos;
 	    x->x_currpos = newpos;
-	    x->x_xfade_state_c = 0.5f;
-	    x->x_xfade_state_s = 0.0f;
+	    x->x_xfade_state_c = 0.5;
+	    x->x_xfade_state_s = 0.0;
 	    x->x_xfade_phase = 0;
 	}
 
@@ -156,13 +145,9 @@ static void tabreadmix_tilde_blocksize(t_tabreadmix_tilde *x, t_float size)
 {
     double prev_phase;
     int max;
-
-    //float fmax = (float)x->x_npoints * 0.5f;
-    float fmax = (float)x->x_wrap_length * 0.5f;
+    t_float fmax = (t_float)x->x_npoints * 0.5;
 
     if (size < 1.0) size = 1.0;
-//    post( "got input size %f\n", size );
-    
 
     prev_phase = (double)x->x_xfade_phase;
     prev_phase *= size;
@@ -174,8 +159,8 @@ static void tabreadmix_tilde_blocksize(t_tabreadmix_tilde *x, t_float size)
     x->x_xfade_size = (int)size;
 
 
-    x->x_xfade_cos = cos(M_PI / (float)x->x_xfade_size);
-    x->x_xfade_sin = sin(M_PI / (float)x->x_xfade_size);
+    x->x_xfade_cos = cos(M_PI / (t_float)x->x_xfade_size);
+    x->x_xfade_sin = sin(M_PI / (t_float)x->x_xfade_size);
 
 
     /* make sure indices are inside array */
@@ -190,23 +175,6 @@ static void tabreadmix_tilde_blocksize(t_tabreadmix_tilde *x, t_float size)
 
 }
 
-void tabreadmix_tilde_wrap(t_tabreadmix_tilde *x, t_float start, t_float end )
-{
-    if ( start > end )
-    	error( "tabreadmix~: wrap: start %i must be lower than end %i", (int)start, (int)end );
-    else if ( 0 > start || start > x->x_npoints )
-    	error( "tabreadmix~: wrap: start %i must be between 0 and bufsize (%d)", (int)start, (int)x->x_npoints );
-    else if ( 0 > end || end > x->x_npoints )
-    	error( "tabreadmix~: wrap: end %i must be between 0 and bufsize (%d)", (int)end, (int)x->x_npoints );
-    else
-    {
-    	x->x_wrap_start = start;
-    	x->x_wrap_end = end;
-    	x->x_wrap_length = end - start;
-    }
-    
-}
-
 void tabreadmix_tilde_pitch(t_tabreadmix_tilde *x, t_float f)
 {
     if (f < 1) f = 1;
@@ -214,19 +182,10 @@ void tabreadmix_tilde_pitch(t_tabreadmix_tilde *x, t_float f)
     tabreadmix_tilde_blocksize(x, sys_getsr() / f);
 }
 
-
-void tabreadmix_tilde_audiorate(t_tabreadmix_tilde *x, t_float f)
-{
-    if ( f<0.001 ) f = 0.001;
-
-    x->x_posinc = f;
-}
-
-
 void tabreadmix_tilde_chunks(t_tabreadmix_tilde *x, t_float f)
 {
-    if (f < 1.0f) f = 1.0f;
-    tabreadmix_tilde_blocksize(x, (float)x->x_npoints / f);
+    if (f < 1.0) f = 1.0;
+    tabreadmix_tilde_blocksize(x, (t_float)x->x_npoints / f);
 }
 
 void tabreadmix_tilde_bang(t_tabreadmix_tilde *x, t_float f)
@@ -238,7 +197,6 @@ void tabreadmix_tilde_bang(t_tabreadmix_tilde *x, t_float f)
 void tabreadmix_tilde_set(t_tabreadmix_tilde *x, t_symbol *s)
 {
     t_garray *a;
-    int old_npoints = x->x_npoints;
     
     x->x_arrayname = s;
     if (!(a = (t_garray *)pd_findbyclass(x->x_arrayname, garray_class)))
@@ -253,14 +211,6 @@ void tabreadmix_tilde_set(t_tabreadmix_tilde *x, t_symbol *s)
         x->x_vec = 0;
     }
     else garray_usedindsp(a);
-
-    // reset wrappage
-    if ( old_npoints != x->x_npoints )
-    {
-        x->x_wrap_start = 0;
-        x->x_wrap_end = x->x_npoints;
-        x->x_wrap_length = x->x_npoints;
-    }
 
     /* make sure indices are inside array */
     if (x->x_npoints == 0){
@@ -297,9 +247,8 @@ static void *tabreadmix_tilde_new(t_symbol *s)
     x->x_xfade_size = 1024;
     x->x_currpos = 0;
     x->x_prevpos = 0;
-    x->x_posinc = 1.0f;
-    x->x_xfade_state_c = 0.5f;
-    x->x_xfade_state_s = 0.0f;
+    x->x_xfade_state_c = 0.5;
+    x->x_xfade_state_s = 0.0;
     tabreadmix_tilde_blocksize(x, 1024);
     return (x);
 }
@@ -320,11 +269,6 @@ void tabreadmix_tilde_setup(void)
         gensym("pitch"), A_FLOAT, 0);
     class_addmethod(tabreadmix_tilde_class, (t_method)tabreadmix_tilde_chunks,
         gensym("chunks"), A_FLOAT, 0);
-    class_addmethod(tabreadmix_tilde_class, (t_method)tabreadmix_tilde_audiorate,
-	gensym("audiorate"), A_FLOAT, 0 );
-    class_addmethod(tabreadmix_tilde_class, (t_method)tabreadmix_tilde_wrap,
-	gensym("wrap"), A_FLOAT, A_FLOAT, 0 );	
     class_addmethod(tabreadmix_tilde_class, (t_method)tabreadmix_tilde_bang,
         gensym("bang"), 0);
-    
 }
