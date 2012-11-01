@@ -23,12 +23,18 @@
 #include <math.h>
 #include "m_pd.h"
 
-/* On OSX somehow this expands to '_ctassert___COUNTER__
-   i.e. the __COUNTER__ part is not expanded before it is concatenated.
-   I guess this is ok to disable it on OSX:
-   CT_ASSERTs are active in Linux build. */
-#ifdef MACOSX
-#define CT_ASSERT(x)
+// __COUNTER__ is a CPP extension enabled in gcc >= 4.3
+#if defined __GNUC__ && __GNUC__ == 4 && __GNUC_MINOR__ >= 3
+#define HAVE_COUNTER
+#endif
+#if defined __GNUC__ && __GNUC__ >= 5
+#define HAVE_COUNTER
+#endif
+// FIXME: clang & vc also support __COUNTER__
+
+#ifndef HAVE_COUNTER
+#warning CT_ASSERT() disabled
+#define CT_ASSERT(...)
 #else
 // #warning CT_ASSERT() enabled
 #define CT_NAMED_ASSERT(name,x)                         \
