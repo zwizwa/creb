@@ -30,13 +30,13 @@
 #if defined __GNUC__ && __GNUC__ >= 5
 #define HAVE_COUNTER
 #endif
-// FIXME: clang & vc also support __COUNTER__
-
+#ifdef __clang__ // Should we check version here?
+#define HAVE_COUNTER
+#endif
 #ifndef HAVE_COUNTER
 #warning CT_ASSERT() disabled
 #define CT_ASSERT(...)
 #else
-// #warning CT_ASSERT() enabled
 #define CT_NAMED_ASSERT(name,x)                         \
     typedef int _GENSYM(name ## _ctassert_)[-((x)==0)]
 #define CT_ASSERT(x) CT_NAMED_ASSERT(,x)

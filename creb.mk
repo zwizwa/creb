@@ -44,9 +44,14 @@ SRC_CC := \
 ./modules++/filterortho~.cc \
 
 
-CC := gcc
-CPLUSPLUS := g++
-CFLAGS := -DPD -DCREB_VERSION=\"0.9.2\" -fPIC -O3 -funroll-loops -fomit-frame-pointer -Wall -W -Wno-unused -Wno-parentheses -Wno-switch
+GCC_CFLAGS := -funroll-loops
+CC := gcc $(GCC_CFLAGS)
+CPLUSPLUS := g++ $(GCC_CFLAGS)
+# CC := clang
+# CPLUSPLUS := clang++
+
+
+CFLAGS := -DPD -DCREB_VERSION=\"0.9.2\" -fPIC -O3 -fomit-frame-pointer -Wall -W -Wno-unused -Wno-parentheses -Wno-switch
 BUILD := build
 ARCH := pd_linux
 LDFLAGS := -rdynamic -shared
