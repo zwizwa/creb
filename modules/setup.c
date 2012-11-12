@@ -24,6 +24,7 @@ void permut_tilde_setup(void);
 void lattice_tilde_setup(void);
 void ratio_setup(void);
 void ffpoly_setup(void);
+void dt_ms_setup(void);
 void fwarp_setup(void);
 void junction_tilde_setup(void);
 void fdn_tilde_setup(void);
@@ -36,6 +37,8 @@ void blocknorm_tilde_setup(void);
 void resofilt_tilde_setup(void);
 void scrollgrid1D_tilde_setup(void);
 void sawtooth_tilde_setup(void);
+void sput_tilde_setup(void);
+
 
 #ifndef CREB_VERSION
 #define CREB_VERSION "externals cvs"
@@ -77,10 +80,12 @@ void creb_setup(void)
   resofilt_tilde_setup();
   scrollgrid1D_tilde_setup();
   sawtooth_tilde_setup();
+  sput_tilde_setup();
 
   /* setup other objects */
   ratio_setup();
   ffpoly_setup();
+  dt_ms_setup();
   fwarp_setup();
 
   /* setup c++ modules */

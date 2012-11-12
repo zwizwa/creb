@@ -14,6 +14,7 @@ SRC_C:= \
 ./modules/setup.c \
 ./modules/qmult~.c \
 ./modules/ffpoly.c \
+./modules/dt_ms.c \
 ./modules/sawtooth~.c \
 ./modules/sbosc~.c \
 ./modules/ratio.c \
@@ -37,6 +38,8 @@ SRC_C:= \
 ./modules/qnorm~.c \
 ./modules/eadsr~.c \
 ./modules/bfft~.c \
+./modules/sput~.c \
+./sput/sput.c \
 
 SRC_CC := \
 ./modules++/blosc~.cc \
@@ -76,7 +79,7 @@ clean:
 $(BUILD)/%.d: %.c
 	@echo [d] $(notdir $@)
 	@mkdir -p $(dir $@)
-	@$(CC) -MT $(basename $@).o -MM $(CFLAGS) $< >$@
+	$(CC) -MT $(basename $@).o -MM $(CFLAGS) $< >$@
 
 $(BUILD)/%.d: %.cc
 	@echo [d] $(notdir $@)
@@ -86,7 +89,7 @@ $(BUILD)/%.d: %.cc
 $(BUILD)/%.o: %.c $(BUILD)/%.d
 	@echo [o] $(notdir $@)
 	@mkdir -p $(dir $@)
-	@$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
 
 $(BUILD)/%.o: %.cc $(BUILD)/%.d
 	@echo [o] $(notdir $@)
