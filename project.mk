@@ -79,7 +79,7 @@ clean:
 $(BUILD)/%.d: %.c
 	@echo [d] $(notdir $@)
 	@mkdir -p $(dir $@)
-	$(CC) -MT $(basename $@).o -MM $(CFLAGS) $< >$@
+	@$(CC) -MT $(basename $@).o -MM $(CFLAGS) $< >$@
 
 $(BUILD)/%.d: %.cc
 	@echo [d] $(notdir $@)
@@ -89,7 +89,7 @@ $(BUILD)/%.d: %.cc
 $(BUILD)/%.o: %.c $(BUILD)/%.d
 	@echo [o] $(notdir $@)
 	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 $(BUILD)/%.o: %.cc $(BUILD)/%.d
 	@echo [o] $(notdir $@)
