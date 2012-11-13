@@ -50,7 +50,7 @@ static t_int *sput_pd_perform(t_int *w) {
     t_int n = (t_int)(w[2]);
     t_float *out = (float *)(w[3]);
     int i;
-    sput_get_samples(out, n);
+    sput_run(x, out, n);
     return w+4;
 }
 static void sput_pd_dsp(struct sput_pd *x, t_signal **sp) {
