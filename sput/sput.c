@@ -110,8 +110,9 @@ int voice_alloc(struct sput *x) {
     FOR_IN(v, x->voice) {
         if (x->voice[v].note_inc == 0) return v;
     }
-    /* This is not good, but better than doing nothing.  FIXME: Add
-       some kind of tagging to do LRU alloc. */
+    /* This is not good, but better than doing nothing.  FIXME: Use
+       current envelope value to perform selection.  Data org: keep
+       envolopes together. */
     return 0;
 }
 
@@ -128,25 +129,35 @@ void sput_note_off(struct sput *x, int note) {
 
 /* MIDI note state */
 // FIXME: no float!
-float sum_tick(struct sput *x) {
+float sum_tick_saw(struct sput *x) {
     unsigned int v;
-    float f_sum = 0;
+    int sum = 0;
     FOR_IN(v, x->voice) {
         if (x->voice[v].note_inc) {
-            float f_state = x->voice[v].note_state;
-            f_state -= PHASOR_PERIOD / 2;
-            f_state *= (0.1) * (1.0 / PHASOR_PERIOD);
-            // LOG("f_state = %f\n", f_state);
-            f_sum += f_state;
+            /* Shift is arbitrary, but we interpret phasor as signed. */
+            int p = x->voice[v].note_state;
+            sum += (p >> 4);
             x->voice[v].note_state += x->voice[v].note_inc;
         }
     }
-    return f_sum;
+    return (1.0 / PHASOR_PERIOD) * ((float)sum);
+}
+float sum_tick_square(struct sput *x) {
+    unsigned int v;
+    unsigned int accu = 0;
+    FOR_IN(v, x->voice) {
+        if (x->voice[v].note_inc) {
+            /* Shift is arbitrary, but we interpret phasor as signed. */
+            accu ^= x->voice[v].note_state & 0x80000000;
+            x->voice[v].note_state += x->voice[v].note_inc;
+        }
+    }
+    return (1.0 / PHASOR_PERIOD) * ((float)accu);
 }
 void sput_run(struct sput *x, float *vec, int n) {
     int i;
     for (i=0; i<n; i++) {
-        vec[i] = sum_tick(x);
+        vec[i] = sum_tick_square(x);
     }
 }
 
@@ -166,7 +177,10 @@ void sput_init(struct sput *x) {
    high frequency components, so you want to filter before applying a
    new nonlinearity.
 
-
+   Voice architecture:
+   - classic: each voice: VCO -> VCF -> VCA; each section with envelope
+   - FM/PM: modulation algos
+   - dynwav / additive synthesis (model based)
 */
 
 
