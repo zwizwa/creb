@@ -5,11 +5,15 @@
 #define LOG(...) fprintf(stderr, __VA_ARGS__)
 
 /* CONFIG */
-#define SAMPLE_RATE 48000.0
-#define PHASOR_PERIOD 4294967296.0  // 32 bit phasor
+#ifndef SPUT_SAMPLE_RATE
+#define SPUT_SAMPLE_RATE 48000.0
+#endif
+
+/* Implementation constants. */
+#define PHASOR_PERIOD 4294967296.0 // 32 bit phasor
 #define NOTES_PER_OCTAVE 12.0
 #define REF_FREQ 440.0
-#define REF_NOTE 60.0
+#define REF_NOTE 69.0
 
 /* TOOLS */
 #define NB_EL(x) (sizeof(x)/sizeof((x)[0]))
@@ -21,19 +25,85 @@ static int note2voice(struct sput *x, int note) {
     return x->note2voice[note % 128];
 }
 static void set_note2voice(struct sput *x, int note, int voice) {
-    x->note2voice[note % 128] = voice % SPUT_NB_VOICES;
+    x->note2voice[note % 128] = voice % NB_EL(x->voice);
 }
 
-/* FIXME: no floats! */
-int note_to_inc(int i_note) {
+/* Map midi note to octave, note */
+#define FREQ_TO_INC(freq)  (((freq) / SPUT_SAMPLE_RATE) * PHASOR_PERIOD)
+
+#if 1
+/* Table based. */
+
+/* Create the phasor increments for an equally tempered chromatic
+   scale using a floating point sequence.  Other octaves are derived
+   from these by shifting. */
+
+#define SEMI          0.9438743126816935 // 2 ^ {1/12}
+#define MIDI_NOTE_127 12543.853951415975 // 440 ^ {2^{127-69/12}}, frequency of MIDI note 127
+
+#define N0 (SEMI*N1)
+#define N1 (SEMI*N2)
+#define N2 (SEMI*N3)
+#define N3 (SEMI*N4)
+#define N4 (SEMI*N5)
+#define N5 (SEMI*N6)
+#define N6 (SEMI*N7)
+#define N7 (SEMI*N8)
+#define N8 (SEMI*N9)
+#define N9 (SEMI*N10)
+#define N10 (SEMI*N11)
+#define N11 FREQ_TO_INC(MIDI_NOTE_127)
+
+static const phasor_t note_tab[12] = {
+    N0, N1, N2,  N3,  // 116 - 119
+    N4, N5, N6,  N7,  // 120 - 123
+    N8, N9, N10, N11, // 124 - 127
+};
+
+/* Create a midi note -> octave, note map */
+#define NOTE(o,n) \
+    ((((o) & 15) << 4) | ((n) & 15))
+#define OCTAVE(o) \
+    NOTE(o,0), NOTE(o,1), NOTE(o,2),  NOTE(o,3), \
+    NOTE(o,4), NOTE(o,5), NOTE(o,6),  NOTE(o,7), \
+    NOTE(o,8), NOTE(o,9), NOTE(o,10), NOTE(o,11)
+
+const u8 midi_tab[128] = {
+    NOTE(10,4), NOTE(10,5), NOTE(10,6),  NOTE(10,7),
+    NOTE(10,8), NOTE(10,9), NOTE(10,10), NOTE(10,11),
+    OCTAVE(9),
+    OCTAVE(8), OCTAVE(7), OCTAVE(6),
+    OCTAVE(5), OCTAVE(4), OCTAVE(3),
+    OCTAVE(2), OCTAVE(1), OCTAVE(0),
+};
+
+/* Combine both tables. */
+phasor_t note_to_inc(int note) {
+    int octave_note = midi_tab[note & 127];
+    int octave = octave_note >> 4;
+    int n = octave_note & 15;
+    phasor_t p = note_tab[n] >> octave;
+    LOG("%d -> (%d,%d,%d,%d)\n", note, octave, n, note_tab[n], p);
+    return p;
+}
+
+
+#else
+
+#define NOTE_TO_FREQ(note) (REF_FREQ * POW2((((note) - REF_NOTE) / NOTES_PER_OCTAVE)))
+#define NOTE_TO_INC(note)  (FREQ_TO_INC(NOTE_TO_FREQ(note)))
+#define POW2(x) pow(2,x)
+
+phasor_t note_to_inc(int i_note) {
     double note = i_note;
     /* 60 -> 440Hz */
-    double freq = REF_FREQ * pow(2, ((note - REF_NOTE) / NOTES_PER_OCTAVE));
-    LOG("freq = %f -> %f\n", note, freq);
-    double inc = (freq / SAMPLE_RATE) * PHASOR_PERIOD;
-    int i_inc = (inc + 0.5);
+    double freq = NOTE_TO_FREQ(note);
+    double inc = FREQ_TO_INC(freq);
+    phasor_t i_inc = (inc + 0.5);
+    LOG("freq = %f -> %f, %d\n", note, freq, i_inc);
     return i_inc;
 }
+#endif
 
 int voice_alloc(struct sput *x) {
     unsigned int v;
