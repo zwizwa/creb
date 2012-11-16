@@ -148,7 +148,9 @@ float sum_tick_square(struct sput *x) {
     FOR_IN(v, x->voice) {
         if (x->voice[v].note_inc) {
             /* Shift is arbitrary, but we interpret phasor as signed. */
-            accu ^= x->voice[v].note_state & 0x80000000;
+            unsigned int bit = x->voice[v].note_state & 0x80000000;
+            // accu ^= bit;
+            accu |= bit;
             x->voice[v].note_state += x->voice[v].note_inc;
         }
     }
