@@ -159,7 +159,7 @@ float sum_tick_square(struct sput *x) {
 void sput_run(struct sput *x, float *vec, int n) {
     int i;
     for (i=0; i<n; i++) {
-        vec[i] = sum_tick_square(x);
+        vec[i] = sum_tick_saw(x);
     }
 }
 
