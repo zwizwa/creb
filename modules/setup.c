@@ -37,7 +37,6 @@ void blocknorm_tilde_setup(void);
 void resofilt_tilde_setup(void);
 void scrollgrid1D_tilde_setup(void);
 void sawtooth_tilde_setup(void);
-void sput_tilde_setup(void);
 
 
 #ifndef CREB_VERSION
@@ -80,7 +79,6 @@ void creb_setup(void)
   resofilt_tilde_setup();
   scrollgrid1D_tilde_setup();
   sawtooth_tilde_setup();
-  sput_tilde_setup();
 
   /* setup other objects */
   ratio_setup();

@@ -38,8 +38,6 @@ SRC_C:= \
 ./modules/qnorm~.c \
 ./modules/eadsr~.c \
 ./modules/bfft~.c \
-./modules/sput~.c \
-./sput/sput.c \
 
 SRC_CC := \
 ./modules++/blosc~.cc \
