@@ -29,7 +29,7 @@ typedef struct _window
     t_object x_obj;
     t_float x_f;
     t_float *x_window;
-    t_int x_size;
+    int x_size;
     t_symbol *x_type;
     t_float x_typearg;
     
@@ -49,7 +49,7 @@ static t_int *window_perform(t_int *w)
     return (w+5);
 }
 
-static void window_size(t_window *x, t_int n)
+static void window_size(t_window *x, int n)
 {
     if (x->x_size != n){
 	if (x->x_window) free(x->x_window);

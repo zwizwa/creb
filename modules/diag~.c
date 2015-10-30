@@ -32,7 +32,7 @@ typedef struct diagctl
 {
   t_float *c_state;
   t_float *c_eigen;
-  t_int c_order;
+  int c_order;
 } t_diagctl;
 
 typedef struct diag
@@ -111,7 +111,7 @@ static t_int *diag_perform(t_int *w)
 
   t_float *eigen = ctl->c_eigen;
   t_float *state = ctl->c_state;
-  t_int n = (t_int)(w[2]);
+  int n = (int)(w[2]);
   t_float newstate;
 
   int i;

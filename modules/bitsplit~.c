@@ -27,7 +27,7 @@
 
 typedef struct bitsplitctl
 {
-    t_int c_outputs;
+    int c_outputs;
     t_float *c_input;
     t_float **c_output;
 } t_bitsplitctl;
@@ -44,11 +44,11 @@ static t_int *bitsplit_perform(t_int *word)
 {
 
     t_bitsplitctl *ctl  = (t_bitsplitctl *)(word[1]);
-    t_int n             = (t_int)(word[2]);
+    int n               = (int)(word[2]);
     t_float *in         = ctl->c_input;
-    t_int outputs       = ctl->c_outputs;
+    int outputs         = ctl->c_outputs;
     t_float **out       = ctl->c_output;
-    t_int i,j;
+    int i,j;
 
     for (i=0;i<n;i++){
 	long word = (in[i] * (t_float)(0x7fffffff));

@@ -29,7 +29,7 @@ typedef struct eadctl
   t_float c_attack;
   t_float c_decay;
   t_float c_state;
-  t_int c_target;
+  int c_target;
 } t_eadctl;
 
 
@@ -74,9 +74,9 @@ static t_int *ead_perform(t_int *w)
     t_float attack  = ctl->c_attack;
     t_float decay   = ctl->c_decay;
     t_float state   = ctl->c_state;
-    t_int n = (t_int)(w[2]);
+    int n = (int)(w[2]);
 
-    t_int i;
+    int i;
 
 
     /* A/D code */

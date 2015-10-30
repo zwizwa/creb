@@ -29,7 +29,7 @@
 
 typedef struct blocknormctl
 {
-    t_int c_channels;
+    int c_channels;
     t_float **c_input;
     t_float **c_output;
 } t_blocknormctl;
@@ -45,12 +45,12 @@ typedef struct blocknorm
 static t_int *blocknorm_perform(t_int *word)
 {
 
-    t_blocknormctl *ctl  = (t_blocknormctl *)(word[1]);
-    t_int n             = (t_int)(word[2]);
+    t_blocknormctl *ctl = (t_blocknormctl *)(word[1]);
+    int n               = (int)(word[2]);
     t_float **in        = ctl->c_input;
     t_float **out       = ctl->c_output;
-    t_int c             = ctl->c_channels;
-    t_int i,j;
+    int c               = ctl->c_channels;
+    int i,j;
 
     t_float p = 0.0f;
     t_float x, s;

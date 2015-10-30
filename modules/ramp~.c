@@ -25,7 +25,7 @@
 typedef struct rampctl
 {
     t_float c_offset;
-    t_int c_blockscale;
+    int c_blockscale;
 } t_rampctl;
 
 typedef struct ramp
@@ -53,8 +53,8 @@ static t_int *ramp_perform(t_int *w)
 {
     t_float *out    = (t_float *)(w[3]);
     t_rampctl *ctl  = (t_rampctl *)(w[1]);
-    t_int i;
-    t_int n = (t_int)(w[2]);
+    int i;
+    int n = (int)(w[2]);
     t_float x;
 
     t_float scale = ctl->c_blockscale ? 1.0 / (t_float)n : 1.0;

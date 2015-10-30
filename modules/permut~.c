@@ -24,7 +24,7 @@
 #include <stdlib.h>
 //#include "m_pd.h"
 #include "extlib_util.h"
-                               
+
 typedef union
 {
     float f;
@@ -35,7 +35,7 @@ typedef union
 typedef struct permutctl
 {
   char c_type;
-  t_int *c_permutationtable;
+  int *c_permutationtable;
   int c_blocksize;
 } t_permutctl;
 
@@ -48,9 +48,9 @@ typedef struct permut
 } t_permut;
 
 
-static inline void permut_perform_permutation(t_float *S, int n, t_int *f)
+static inline void permut_perform_permutation(t_float *S, int n, int *f)
 {
-  t_int k,l;
+  int k,l;
   t_float swap;
   for(k=0; k<n; k++)
     {
@@ -68,7 +68,7 @@ static void permut_random(t_permut *x, t_floatarg seed)
   int i,j;
   int N = x->x_ctl.c_blocksize;
   int mask = N-1;
-  t_int *p = x->x_ctl.c_permutationtable;
+  int *p = x->x_ctl.c_permutationtable;
   int r, last = 0;
   t_permutflint flintseed;
   
@@ -111,7 +111,7 @@ static void permut_resize_table(t_permut *x, int size)
     {
       if (x->x_ctl.c_permutationtable)
 	free(x->x_ctl.c_permutationtable);
-      x->x_ctl.c_permutationtable = (t_int *)malloc(sizeof(int)*size);
+      x->x_ctl.c_permutationtable = (int *)malloc(sizeof(int)*size);
       x->x_ctl.c_blocksize = size;
 
       /* make sure it's initialized */
@@ -131,10 +131,10 @@ static t_int *permut_perform(t_int *w)
   t_float *in    = (t_float *)(w[3]);
   t_float *out    = (t_float *)(w[4]);
   t_permutctl *ctl  = (t_permutctl *)(w[1]);
-  t_int i;
-  t_int n = (t_int)(w[2]);
+  int i;
+  int n = (int)(w[2]);
   t_float x,y;
-  t_int *p =  ctl->c_permutationtable;
+  int *p =  ctl->c_permutationtable;
 
 
   if (in != out)

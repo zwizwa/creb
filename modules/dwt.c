@@ -33,16 +33,16 @@ typedef struct dwtctl
 {
   t_float c_update[MAXORDER];
   t_float c_predict[MAXORDER];
-  t_int c_nupdate;
-  t_int c_npredict;
-  t_int c_levels;
-  t_int c_fakein;
+  int c_nupdate;
+  int c_npredict;
+  int c_levels;
+  int c_fakein;
   t_float c_fakeval;
-  t_int c_mask;
+  int c_mask;
   char c_name[16];
-  t_int *c_clutter;
-  t_int *c_unclutter;
-  t_int c_permute;
+  int *c_clutter;
+  int *c_unclutter;
+  int c_permute;
   t_dwttype c_type;
 } t_dwtctl;
 
@@ -90,8 +90,8 @@ static void dwt_wavelet(t_dwt *x, t_floatarg f)
   int k = (int)f;
   t_float *p = x->x_ctl.c_predict;
   t_float *u = x->x_ctl.c_update;
-  t_int *np = &x->x_ctl.c_npredict;
-  t_int *nu = &x->x_ctl.c_nupdate;
+  int *np = &x->x_ctl.c_npredict;
+  int *nu = &x->x_ctl.c_nupdate;
   
   switch(k)
     {
@@ -145,9 +145,9 @@ static void dwt_wavelet(t_dwt *x, t_floatarg f)
     }
 }
 
-static inline void dwt_perform_permutation(t_float *S, int n, t_int *f)
+static inline void dwt_perform_permutation(t_float *S, int n, int *f)
 {
-  t_int k,l;
+  int k,l;
   t_float swap;
   for(k=0; k<n; k++)
     {
@@ -159,19 +159,19 @@ static inline void dwt_perform_permutation(t_float *S, int n, t_int *f)
     }
 }
 
-static void dwt_permutation(t_dwt *x, t_int n){
+static void dwt_permutation(t_dwt *x, int n){
 
   t_dwtctl *ctl = &x->x_ctl;
-  t_int k, L=0, l, start, power;
-  t_int nsave = n;
+  int k, L=0, l, start, power;
+  int nsave = n;
 
   while(nsave>>=1) L++; 
 
   if (ctl->c_clutter)   free(ctl->c_clutter);
   if (ctl->c_unclutter) free(ctl->c_unclutter);
   
-  ctl->c_clutter = (t_int *)malloc(n*sizeof(t_int));
-  ctl->c_unclutter = (t_int *)malloc(n*sizeof(t_int));
+  ctl->c_clutter = (int *)malloc(n*sizeof(int));
+  ctl->c_unclutter = (int *)malloc(n*sizeof(int));
 
 
   for(l = L, start = n/2, power=1; l>0; l--, start /=2, power *=2)
@@ -234,7 +234,7 @@ static void dwt_filter(t_dwt *x,  t_symbol *s, int argc, t_atom *argv)
   float *ufilter = x->x_ctl.c_update; 
   float *mask = NULL;
 
-  t_int *length = NULL;
+  int *length = NULL;
   float sum = 0;
 
   if (s == gensym("predict"))
@@ -435,7 +435,7 @@ static t_int *dwt_perform(t_int *w)
   t_dwtctl *ctl  = (t_dwtctl *)(w[1]);
 
 
-  t_int n = (t_int)(w[2]);
+  int n = (int)(w[2]);
 
   int i;
 
@@ -504,7 +504,7 @@ static t_int *idwt_perform(t_int *w)
   t_dwtctl *ctl  = (t_dwtctl *)(w[1]);
 
 
-  t_int n = (t_int)(w[2]);
+  int n = (int)(w[2]);
 
   int i;
 
@@ -572,7 +572,7 @@ static t_int *dwt16_perform(t_int *w)
   t_dwtctl *ctl  = (t_dwtctl *)(w[1]);
 
 
-  t_int n = (t_int)(w[2]);
+  int n = (int)(w[2]);
 
   int i;
 
@@ -641,7 +641,7 @@ static t_int *idwt16_perform(t_int *w)
   t_dwtctl *ctl  = (t_dwtctl *)(w[1]);
 
 
-  t_int n = (t_int)(w[2]);
+  int n = (int)(w[2]);
 
   int i;
 
@@ -776,7 +776,7 @@ static void *dwt_new_common(t_floatarg permute)
 
     x->x_ctl.c_clutter = NULL;
     x->x_ctl.c_unclutter = NULL;
-    x->x_ctl.c_permute = (t_int) permute;
+    x->x_ctl.c_permute = (int) permute;
 
     return (void *)x;
 

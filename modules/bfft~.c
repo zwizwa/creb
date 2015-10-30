@@ -30,12 +30,12 @@
 
 typedef struct bfftctl
 {
-    t_int c_levels;
+    int c_levels;
     char c_name[16];
-    t_int *c_clutter;
-    t_int *c_unclutter;
-    t_int c_kill_DC;
-    t_int c_kill_NY;
+    int *c_clutter;
+    int *c_unclutter;
+    int c_kill_DC;
+    int c_kill_NY;
 } t_bfftctl;
 
 typedef struct bfft
@@ -48,9 +48,9 @@ typedef struct bfft
 t_class *bfft_class, *ibfft_class, *fht_class;
 
 
-static inline void bfft_perform_permutation(t_float *S, int n, t_int *f)
+static inline void bfft_perform_permutation(t_float *S, int n, int *f)
 {
-  t_int k,l;
+  int k,l;
   t_float swap;
   for(k=0; k<n; k++)
     {
@@ -62,7 +62,7 @@ static inline void bfft_perform_permutation(t_float *S, int n, t_int *f)
     }
 }
 
-static void bfft_permutation(t_bfft *x, t_int n){
+static void bfft_permutation(t_bfft *x, int n){
 
   t_bfftctl *ctl = &x->x_ctl;
   int i;
@@ -70,8 +70,8 @@ static void bfft_permutation(t_bfft *x, t_int n){
   if (ctl->c_clutter)   free(ctl->c_clutter);
   if (ctl->c_unclutter) free(ctl->c_unclutter);
   
-  ctl->c_clutter = (t_int *)malloc(n*sizeof(t_int));
-  ctl->c_unclutter = (t_int *)malloc(n*sizeof(t_int));
+  ctl->c_clutter = (int *)malloc(n*sizeof(int));
+  ctl->c_unclutter = (int *)malloc(n*sizeof(int));
 
 
   ctl->c_unclutter[0] = 0;
@@ -105,7 +105,7 @@ static t_int *bfft_perform(t_int *w)
   t_float *in     = (t_float *)(w[3]);
   t_float *out    = (t_float *)(w[4]);
   t_bfftctl *ctl  = (t_bfftctl *)(w[1]);
-  t_int n = (t_int)(w[2]);
+  int n = (int)(w[2]);
   t_float scale = sqrt(1.0f / (t_float)(n));
 
   mayer_fht(out, n);
@@ -126,7 +126,7 @@ static t_int *ibfft_perform(t_int *w)
   t_float *in     = (t_float *)(w[3]);
   t_float *out    = (t_float *)(w[4]);
   t_bfftctl *ctl  = (t_bfftctl *)(w[1]);
-  t_int n = (t_int)(w[2]);
+  int n = (int)(w[2]);
   t_float scale = sqrt(1.0f / (t_float)(n));
 
 
@@ -154,7 +154,7 @@ static t_int *fht_perform(t_int *w)
   t_bfftctl *ctl  = (t_bfftctl *)(w[1]);
 
 
-  t_int n = (t_int)(w[2]);
+  int n = (int)(w[2]);
 
   mayer_fht(out, n);
 

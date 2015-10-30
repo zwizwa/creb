@@ -56,10 +56,10 @@ static t_float blr[N]; // band limited ramp
 
 typedef struct bloscctl
 {
-    t_int c_index[VOICES];      // array of indices in sample table
+    int c_index[VOICES];      // array of indices in sample table
     t_float c_frac[VOICES];     // array of fractional indices
     t_float c_vscale[VOICES];   // array of scale factors
-    t_int c_next_voice;         // next voice to steal (round robin)
+    int c_next_voice;         // next voice to steal (round robin)
     u32 c_phase;                // phase of main oscillator
     u32 c_phase2;               // phase of secondairy oscillator
     t_float c_state;            // state of the square wave
@@ -86,7 +86,7 @@ static inline u32 _float_to_phase(t_float f){return ((u32)(f * 4294967296.0)) & 
 
 
 /* flat table: better for linear interpolation */
-static inline t_float _play_voice_lint(t_float *table, t_int *index, t_float frac, t_float scale)
+static inline t_float _play_voice_lint(t_float *table, int *index, t_float frac, t_float scale)
 {
     int i = *index;
 
@@ -316,12 +316,12 @@ static void _bang_hardsync_phasor(t_bloscctl *ctl, t_float freq, t_float freq2)
 
 static t_int *blosc_perform_hardsync_saw(t_int *w)
 {
-    t_float *freq     = (t_float *)(w[3]);
-    t_float *freq2     = (t_float *)(w[4]);
-    t_float *out      = (t_float *)(w[5]);
-    t_bloscctl *ctl  = (t_bloscctl *)(w[1]);
-    t_int n           = (t_int)(w[2]);
-    t_int i;
+    t_float *freq   = (t_float *)(w[3]);
+    t_float *freq2  = (t_float *)(w[4]);
+    t_float *out    = (t_float *)(w[5]);
+    t_bloscctl *ctl = (t_bloscctl *)(w[1]);
+    int n           = (int)(w[2]);
+    int i;
 
     /* set postfilter cutoff */
     ctl->c_butter->setButterHP(0.85 * (*freq / sys_getsr()));
@@ -354,9 +354,9 @@ static t_int *blosc_perform_saw(t_int *w)
 {
     t_float *freq     = (t_float *)(w[3]);
     t_float *out      = (t_float *)(w[4]);
-    t_bloscctl *ctl  = (t_bloscctl *)(w[1]);
-    t_int n           = (t_int)(w[2]);
-    t_int i;
+    t_bloscctl *ctl   = (t_bloscctl *)(w[1]);
+    int n             = (int)(w[2]);
+    int i;
     
     while (n--) {
 	t_float frequency = *freq++;
@@ -384,9 +384,9 @@ static t_int *blosc_perform_pulse(t_int *w)
 {
     t_float *freq     = (t_float *)(w[3]);
     t_float *out      = (t_float *)(w[4]);
-    t_bloscctl *ctl  = (t_bloscctl *)(w[1]);
-    t_int n           = (t_int)(w[2]);
-    t_int i;
+    t_bloscctl *ctl   = (t_bloscctl *)(w[1]);
+    int n             = (int)(w[2]);
+    int i;
 
 
     /* set postfilter cutoff */
@@ -416,9 +416,9 @@ static t_int *blosc_perform_comparator(t_int *w)
 {
     t_float *amp      = (t_float *)(w[3]);
     t_float *out      = (t_float *)(w[4]);
-    t_bloscctl *ctl  = (t_bloscctl *)(w[1]);
-    t_int n           = (t_int)(w[2]);
-    t_int i;
+    t_bloscctl *ctl   = (t_bloscctl *)(w[1]);
+    int n             = (int)(w[2]);
+    int i;
     t_float prev_amp = ctl->c_prev_amp;
     
     while (n--) {

@@ -83,14 +83,14 @@ static t_int *scrollgrid1D_perform(t_int *w)
   t_float *outy    = (t_float *)(w[8]);
   t_float *outz    = (t_float *)(w[9]);
   t_scrollgrid1Dctl *ctl    = (t_scrollgrid1Dctl *)(w[1]);
-  t_int n          = (t_int)(w[2]);
+  int n            = (int)(w[2]);
   
-  t_int i;
+  int i;
   t_float inv_sr = 1.0 /sys_getsr();
   t_float state[3] = {ctl->c_x, ctl->c_y, ctl->c_z};
   t_float c,f;
   t_float pole[2], r1, r2;
-  t_int o;
+  int o;
   t_float x,y,z;
 
 

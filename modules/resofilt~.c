@@ -68,7 +68,7 @@ static t_int *resofilt_perform_fourpole(t_int *w)
 {
 
   t_resofiltctl *ctl = (t_resofiltctl *)(w[1]);
-  t_int n            = (t_int)(w[2]);
+  int n              = (int)(w[2]);
   t_float *in        = (t_float *)(w[3]);
   t_float *freq      = (t_float *)(w[4]);
   t_float *reso      = (t_float *)(w[5]);
@@ -211,7 +211,7 @@ static t_int *resofilt_perform_threepole(t_int *w)
 {
 
   t_resofiltctl *ctl = (t_resofiltctl *)(w[1]);
-  t_int n            = (t_int)(w[2]);
+  int n              = (int)(w[2]);
   t_float *in        = (t_float *)(w[3]);
   t_float *freq      = (t_float *)(w[4]);
   t_float *reso      = (t_float *)(w[5]);

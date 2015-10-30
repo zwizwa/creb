@@ -75,8 +75,8 @@ static int initprimes(void)
 
 typedef struct fdnctl
 {
-  t_int c_order;      /* veelvoud van 4 */
-  t_int c_maxorder;
+  int c_order;      /* veelvoud van 4 */
+  int c_maxorder;
   t_float c_leak;
   t_float c_input;
   t_float c_output;
@@ -85,13 +85,13 @@ typedef struct fdnctl
   t_float *c_gain_state;
   t_float c_timehigh;
   t_float c_timelow;
-  t_int *c_tap;       /* cirular feed: N+1 pointers: 1 read, (N-1)r/w, 1 write */ 
+  int *c_tap;       /* cirular feed: N+1 pointers: 1 read, (N-1)r/w, 1 write */ 
   t_float *c_length;  /* delay lengths in ms */
-  t_int c_bufsize;
+  int c_bufsize;
   t_float c_fsample;
   t_float *c_vector[2];
   t_float *c_vectorbuffer;
-  t_int c_curvector;
+  int c_curvector;
 } t_fdnctl;
 
 typedef struct fdn
@@ -102,7 +102,7 @@ typedef struct fdn
 } t_fdn;
 
 
-static void fdn_order(t_fdn *x, t_int order){
+static void fdn_order(t_fdn *x, int order){
   if (order > x->x_ctl.c_maxorder) {
     post("fdn: this should not happen (panic!) order %d "
 	 "is larger than maxorder %d:", 
@@ -149,17 +149,17 @@ static t_int *fdn_perform(t_int *w)
   t_float *outr    = (t_float *)(w[4]);
   t_float *outl    = (t_float *)(w[5]);
   t_fdnctl *ctl    = (t_fdnctl *)(w[1]);
-  t_int n          = (t_int)(w[2]);
+  int n            = (int)(w[2]);
   t_float input    = ctl->c_input;
   t_float output   = ctl->c_output;
-  t_float *gain_in    = ctl->c_gain_in;
+  t_float *gain_in = ctl->c_gain_in;
   t_float *gain_state = ctl->c_gain_state;
-  t_int order      = ctl->c_order;
-  t_int *tap       = ctl->c_tap;
+  int order        = ctl->c_order;
+  int *tap         = ctl->c_tap;
   t_float *buf     = ctl->c_buf;
-  t_int mask       = ctl->c_bufsize - 1;
+  int mask         = ctl->c_bufsize - 1;
 
-  t_int i,j;
+  int i,j;
   t_float x,y,v,left,right,z;
   t_float filt_in, filt_last;
 
@@ -289,7 +289,7 @@ yk = (2 gl gh ) / (gl + gh) x + (gl - gh) / (gl + gh) yk-1
 
 static void fdn_time(t_fdn *x, t_float timelow, t_float timehigh){
   t_float elow, ehigh;
-  t_int i;
+  int i;
   t_float gainlow, gainhigh, gainscale;
 
   if (timelow < FDN_MIN_DECAY_TIME) timelow = FDN_MIN_DECAY_TIME;
@@ -329,7 +329,7 @@ static void fdn_setupdelayline(t_fdn *x){
   int sum, t, n;
   int mask = x->x_ctl.c_bufsize - 1;
   int start =  x->x_ctl.c_tap[0];
-  t_int *tap = x->x_ctl.c_tap;
+  int *tap = x->x_ctl.c_tap;
   t_float *length = x->x_ctl.c_length;
   t_float scale = sys_getsr() * .001f;
 
@@ -369,9 +369,9 @@ static void fdn_list (t_fdn *x,  t_symbol *s, int argc, t_atom *argv){
 
 static void fdn_linear(t_fdn *x, t_float forder, t_float min, t_float max)
 {
-    t_int order = ((int)forder) & 0xfffffffc;
+    int order = ((int)forder) & 0xfffffffc;
     t_float length, inc;
-    t_int i;
+    int i;
 
     if (order < 4) return;
     if (order > x->x_ctl.c_maxorder) return;
@@ -395,9 +395,9 @@ static void fdn_linear(t_fdn *x, t_float forder, t_float min, t_float max)
 
 static void fdn_exponential(t_fdn *x, t_float forder, t_float min, t_float max)
 {
-    t_int order = ((int)forder) & 0xfffffffc;
+    int order = ((int)forder) & 0xfffffffc;
     t_float length, inc;
-    t_int i;
+    int i;
 
     if (order < 4) return;
     if (order > x->x_ctl.c_maxorder) return;
@@ -425,11 +425,11 @@ t_class *fdn_class;
 
 static void *fdn_new(t_floatarg maxiorder, t_floatarg maxibufsize)
 {
-  t_int order = maxiorder;
-  t_int bufround;
+  int order = maxiorder;
+  int bufround;
   t_fdn *x = (t_fdn *)pd_new(fdn_class);
   t_float scale = sys_getsr() * .001f;
-  t_int bufsize = (t_int)(scale * maxibufsize);
+  int bufsize = (int)(scale * maxibufsize);
 
 
   inlet_new(&x->x_obj, &x->x_obj.ob_pd, gensym("float"), gensym("timelow"));  
@@ -455,8 +455,8 @@ static void *fdn_new(t_floatarg maxiorder, t_floatarg maxibufsize)
   x->x_ctl.c_buf = (t_float *)malloc(sizeof(t_float) * bufsize);
   x->x_ctl.c_bufsize = bufsize;
   x->x_ctl.c_fsample = sys_getsr();
-  x->x_ctl.c_tap = (t_int *)malloc((order + 1) * sizeof(t_int)); 
-  x->x_ctl.c_length = (t_float *)malloc(order * sizeof(t_int)); 
+  x->x_ctl.c_tap = (int *)malloc((order + 1) * sizeof(int)); 
+  x->x_ctl.c_length = (t_float *)malloc(order * sizeof(t_float)); 
   x->x_ctl.c_gain_in = (t_float *)malloc(order * sizeof(t_float));
   x->x_ctl.c_gain_state = (t_float *)malloc(order * sizeof(t_float));
   x->x_ctl.c_vectorbuffer = (t_float *)malloc(order * 2 * sizeof(t_float));

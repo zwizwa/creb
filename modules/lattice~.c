@@ -34,7 +34,7 @@ typedef struct latticesegment
 typedef struct latticectl
 {
     t_latticesegment c_segment[MAXORDER]; // array of lattice segment data
-    t_int c_segments;
+    int c_segments;
 } t_latticectl;
 
 typedef struct lattice
@@ -53,12 +53,12 @@ static t_int *lattice_perform(t_int *w)
   t_float *in    = (t_float *)(w[3]);
   t_float *out    = (t_float *)(w[4]);
   t_latticectl *ctl  = (t_latticectl *)(w[1]);
-  t_int i,j;
-  t_int n = (t_int)(w[2]);
+  int i,j;
+  int n = (int)(w[2]);
   t_float x,rc,d;
 
   t_latticesegment* seg = ctl->c_segment;
-  t_int segments = ctl->c_segments;
+  int segments = ctl->c_segments;
   for (i=0; i<n; i++)
   {
       x = *in++;
@@ -98,7 +98,7 @@ t_class *lattice_class;
 
 static void lattice_rc(t_lattice *x, t_float segment, t_float refco)
 {
-    t_int seg = (t_float)segment;
+    int seg = (t_float)segment;
     if ((seg >= 0) && (seg < x->x_ctl.c_segments)){
 	if (refco >= MAXREFCO) refco = MAXREFCO;
 	if (refco <= -MAXREFCO) refco = -MAXREFCO;
@@ -109,15 +109,15 @@ static void lattice_rc(t_lattice *x, t_float segment, t_float refco)
 static void lattice_reset(t_lattice *x)
 {
     t_float* buf = (t_float *)x->x_ctl.c_segment;
-    t_int n = x->x_ctl.c_segments;
-    t_int i;
+    int n = x->x_ctl.c_segments;
+    int i;
     for (i=0; i<n; i++) buf[i]=0;
 }
 
 static void *lattice_new(t_floatarg segments)
 {
     t_lattice *x = (t_lattice *)pd_new(lattice_class);
-    t_int seg = (t_int)segments;
+    int seg = (int)segments;
 
     outlet_new(&x->x_obj, gensym("signal")); 
 

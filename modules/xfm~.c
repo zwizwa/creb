@@ -65,7 +65,7 @@ typedef struct xfmctl
     //t_float c_sintab[SINSAMPLES + 1];
     t_float c_x1, c_y1; /* state osc 1 */
     t_float c_x2, c_y2; /* state osc 2 */
-    t_int c_type; /* type of algo */
+    int c_type; /* type of algo */
 
 } t_xfmctl;
 
@@ -108,7 +108,7 @@ static t_int *xfm_perform(t_int *w)
   t_float *outA    = (t_float *)(w[7]);
   t_float *outB    = (t_float *)(w[8]);
   t_xfmctl *ctl    = (t_xfmctl *)(w[1]);
-  t_int n          = (t_int)(w[2]);
+  int n            = (int)(w[2]);
   //t_float *tab     = ctl->c_sintab;
 
   t_float x1 = ctl->c_x1, y1 = ctl->c_y1,   z1, dx1, dy1, inv_norm1;
@@ -116,7 +116,7 @@ static t_int *xfm_perform(t_int *w)
 
   t_float scale = 2 * M_PI / sys_getsr();
 
-  t_int i;
+  int i;
 
   switch(ctl->c_type){
   default:

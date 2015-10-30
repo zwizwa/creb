@@ -27,7 +27,7 @@
 typedef struct chebyctl
 {
   t_float c_gain[MAX_ORDER];
-  t_int c_order;
+  int c_order;
 } t_chebyctl;
 
 typedef struct cheby
@@ -60,8 +60,8 @@ static t_int *cheby_perform(t_int *w)
   t_float *out    = (t_float *)(w[4]);
   t_chebyctl *ctl  = (t_chebyctl *)(w[1]);
   t_float *gain  = ctl->c_gain;
-  t_int i;
-  t_int n = (t_int)(w[2]), k;
+  int i;
+  int n = (int)(w[2]), k;
   t_float x,y,t1,t2,t,acc;
 
     

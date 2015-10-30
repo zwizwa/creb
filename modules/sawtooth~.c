@@ -58,8 +58,8 @@ static t_int *sawtooth_perform(t_int *w)
 {
     t_float *out    = (float *)(w[3]);
     t_sawtoothctl *ctl  = (t_sawtoothctl *)(w[1]);
-    t_int i;
-    t_int n = (t_int)(w[2]);
+    int i;
+    int n = (int)(w[2]);
     t_float phase, x, _x;
     t_float x1 = ctl->c_delay_1;
     t_float x2 = ctl->c_delay_2;
@@ -71,7 +71,7 @@ static t_int *sawtooth_perform(t_int *w)
         phase += ctl->c_increment;
         
         /* Limit range to [0,1[ */
-        x = phase - ((t_float)((t_int)phase));
+        x = phase - ((t_float)((int)phase));
 
         /* Bring range to [-1,1[ */
         x = 2 * x - 1;

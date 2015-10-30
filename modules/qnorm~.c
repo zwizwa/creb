@@ -44,8 +44,8 @@ static t_int *qnorm_perform(t_int *word)
 
 
   t_qnormctl *ctl     = (t_qnormctl *)(word[1]);
-  t_int n             = (t_int)(word[2]);
-  t_int i;
+  int n               = (int)(word[2]);
+  int i;
 
   t_float *in0        = ctl->c_input[0];
   t_float *in1        = ctl->c_input[1];

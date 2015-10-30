@@ -31,7 +31,7 @@ typedef struct dynwavctl
 {
   t_float *c_buf1; /* current */
   t_float *c_buf2; /* old */
-  t_int c_order;
+  int c_order;
 
 } t_dynwavctl;
 
@@ -51,7 +51,7 @@ static t_int *dynwav_perform(t_int *w)
   t_float *freq     = (t_float *)(w[4]);
   t_float *out      = (t_float *)(w[5]);
   t_dynwavctl *ctl  = (t_dynwavctl *)(w[1]);
-  t_int n           = (t_int)(w[2]);
+  int n             = (int)(w[2]);
 
   t_float *buf, *dbuf, *swap;
 
@@ -117,7 +117,7 @@ static t_int *dynwav_perform_8point(t_int *w)
   t_float *freq     = (t_float *)(w[4]);
   t_float *out      = (t_float *)(w[5]);
   t_dynwavctl *ctl  = (t_dynwavctl *)(w[1]);
-  t_int n           = (t_int)(w[2]);
+  int n             = (int)(w[2]);
 
   t_float *buf, *dbuf, *swap;
 

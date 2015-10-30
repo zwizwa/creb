@@ -31,7 +31,7 @@ typedef struct matrixctl
 {
   t_float *c_A; /* matrix */
   t_float *c_x; /* vector */
-  t_int c_order;
+  int c_order;
 
 } t_matrixctl;
 
@@ -66,9 +66,9 @@ static t_int *matrix_perform(t_int *w)
   t_float *in       = (float *)(w[3]);
   t_float *out      = (float *)(w[4]);
   t_matrixctl *ctl  = (t_matrixctl *)(w[1]);
-  t_int n           = (t_int)(w[2]);
+  int n             = (int)(w[2]);
 
-  t_int i,j;
+  int i,j;
   t_float *A = ctl->c_A;
   t_float *x = ctl->c_x;
 

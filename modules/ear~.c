@@ -71,9 +71,9 @@ static t_int *ear_perform(t_int *w)
     t_float release  = ctl->c_release;
     t_float state  = ctl->c_state;
     t_float target = ctl->c_target;
-    t_int n = (t_int)(w[2]);
+    int n = (int)(w[2]);
 
-    t_int i;
+    int i;
 
     if (target) /* attack phase */
       for (i = 0; i < n; i++)

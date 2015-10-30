@@ -26,7 +26,7 @@
 
 typedef struct junctionctl
 {
-  t_int c_channels;
+  int c_channels;
   t_float **c_in;
   t_float **c_out;
   t_float *c_buffer;
@@ -75,11 +75,11 @@ static t_int *junction_perform(t_int *w)
 
 
   t_junctionctl *ctl  = (t_junctionctl *)(w[1]);
-  t_int n             = (t_int)(w[2]);
-  t_int i,j;
+  int n               = (int)(w[2]);
+  int i,j;
   t_float x,y;
 
-  t_int c             = ctl->c_channels;
+  int c               = ctl->c_channels;
   t_float **in        = ctl->c_in;
   t_float **out       = ctl->c_out;
   t_float *buf        = ctl->c_buffer;

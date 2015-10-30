@@ -46,8 +46,8 @@ static t_int *filterortho_perform(t_int *w)
   t_float *in    = (t_float *)(w[3]);
   t_float *out    = (t_float *)(w[4]);
   DSPIfilterOrtho* filterortho  = (DSPIfilterOrtho *)(w[1]);
-  t_int n = (t_int)(w[2]);
-  t_int i;
+  int n = (int)(w[2]);
+  int i;
   t_float x;
 
 

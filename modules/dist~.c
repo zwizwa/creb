@@ -69,8 +69,8 @@ static t_int *dist_perform(t_int *w)
   t_float *out    = (t_float *)(w[4]);
   t_distctl *ctl  = (t_distctl *)(w[1]);
   t_float gain  = ctl->c_gain;
-  t_int i;
-  t_int n = (t_int)(w[2]);
+  int i;
+  int n = (int)(w[2]);
   t_float x,y,v;
   t_float z = ctl->c_delay;
 

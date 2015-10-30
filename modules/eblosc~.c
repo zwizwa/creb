@@ -340,11 +340,11 @@ static void _bang_hardsync_phasor(t_ebloscctl *ctl, float freq, float freq2)
 static t_int *eblosc_perform_hardsync_saw(t_int *w)
 {
     t_float *freq     = (t_float *)(w[3]);
-    t_float *freq2     = (t_float *)(w[4]);
+    t_float *freq2    = (t_float *)(w[4]);
     t_float *out      = (t_float *)(w[5]);
     t_ebloscctl *ctl  = (t_ebloscctl *)(w[1]);
-    t_int n           = (t_int)(w[2]);
-    t_int i;
+    int n             = (int)(w[2]);
+    int i;
 
     /* set postfilter cutoff */
     ctl->c_butter->setButterHP(0.85f * (*freq / sys_getsr()));
@@ -379,8 +379,8 @@ static t_int *eblosc_perform_saw(t_int *w)
     t_float *freq     = (t_float *)(w[3]);
     t_float *out      = (t_float *)(w[4]);
     t_ebloscctl *ctl  = (t_ebloscctl *)(w[1]);
-    t_int n           = (t_int)(w[2]);
-    t_int i;
+    int n             = (int)(w[2]);
+    int i;
     
     while (n--) {
 	float frequency = *freq++;
@@ -409,8 +409,8 @@ static t_int *eblosc_perform_pulse(t_int *w)
     t_float *freq     = (t_float *)(w[3]);
     t_float *out      = (t_float *)(w[4]);
     t_ebloscctl *ctl  = (t_ebloscctl *)(w[1]);
-    t_int n           = (t_int)(w[2]);
-    t_int i;
+    int n             = (int)(w[2]);
+    int i;
 
 
     /* set postfilter cutoff */
@@ -442,8 +442,8 @@ static t_int *eblosc_perform_comparator(t_int *w)
     t_float *amp      = (t_float *)(w[3]);
     t_float *out      = (t_float *)(w[4]);
     t_ebloscctl *ctl  = (t_ebloscctl *)(w[1]);
-    t_int n           = (t_int)(w[2]);
-    t_int i;
+    int n             = (int)(w[2]);
+    int i;
     t_float prev_amp = ctl->c_prev_amp;
     
     while (n--) {
