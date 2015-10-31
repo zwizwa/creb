@@ -91,7 +91,7 @@ static inline t_float _osc_tick(t_ebloscctl *ctl)
 }
 
 /* add shifted impulse */
-static inline void _add_impulse(t_ebloscctl *ctl, t_float t0)
+static inline void _add_impulse(t_ebloscctl *ctl, t_float t0  __attribute__((__unused__)))
 {
     int i;
     for (i=0; i<VOICES*2; i+=2){
@@ -123,7 +123,7 @@ static inline void _add_step(t_ebloscctl *ctl)
 
 
 /* add shifted step */
-static inline void _add_shifted_step(t_ebloscctl *ctl, t_float t0)
+static inline void _add_shifted_step(t_ebloscctl *ctl, t_float t0  __attribute__((__unused__)))
 {
     int i;
     for (i=0; i<VOICES*2; i+=2){

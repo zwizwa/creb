@@ -152,10 +152,6 @@ static t_int *scrollgrid1D_perform(t_int *w)
 
 static void scrollgrid1D_dsp(t_scrollgrid1D *x, t_signal **sp)
 {
-  int n = sp[0]->s_n;
-  int k;
-
-
   dsp_add(scrollgrid1D_perform, 
 	  9, 
 	  &x->x_ctl, 
@@ -170,7 +166,7 @@ static void scrollgrid1D_dsp(t_scrollgrid1D *x, t_signal **sp)
 
 
 }                                  
-static void scrollgrid1D_free(t_scrollgrid1D *x)
+static void scrollgrid1D_free(t_scrollgrid1D *x __attribute__((__unused__)))
 {
 
 
@@ -189,7 +185,7 @@ static void scrollgrid1D_reset(t_scrollgrid1D *x)
 
 t_class *scrollgrid1D_class;
 
-static void *scrollgrid1D_new(t_floatarg algotype)
+static void *scrollgrid1D_new(t_floatarg algotype __attribute__((__unused__)))
 {
     t_scrollgrid1D *x = (t_scrollgrid1D *)pd_new(scrollgrid1D_class);
 

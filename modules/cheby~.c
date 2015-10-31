@@ -37,7 +37,7 @@ typedef struct cheby
   t_chebyctl x_ctl;
 } t_cheby;
 
-static void cheby_bang(t_cheby *x)
+static void cheby_bang(t_cheby *x  __attribute__((__unused__)))
 {
 
 }
@@ -62,7 +62,7 @@ static t_int *cheby_perform(t_int *w)
   t_float *gain  = ctl->c_gain;
   int i;
   int n = (int)(w[2]), k;
-  t_float x,y,t1,t2,t,acc;
+  t_float x,t1,t2,t,acc;
 
     
   for (i = 0; i < n; i++) 

@@ -102,7 +102,7 @@ static t_int *bfft_perform(t_int *w)
 {
 
 
-  t_float *in     = (t_float *)(w[3]);
+  //t_float *in     = (t_float *)(w[3]);
   t_float *out    = (t_float *)(w[4]);
   t_bfftctl *ctl  = (t_bfftctl *)(w[1]);
   int n = (int)(w[2]);
@@ -123,7 +123,7 @@ static t_int *ibfft_perform(t_int *w)
 {
 
 
-  t_float *in     = (t_float *)(w[3]);
+  //t_float *in     = (t_float *)(w[3]);
   t_float *out    = (t_float *)(w[4]);
   t_bfftctl *ctl  = (t_bfftctl *)(w[1]);
   int n = (int)(w[2]);
@@ -149,9 +149,9 @@ static t_int *fht_perform(t_int *w)
 {
 
 
-  t_float *in     = (t_float *)(w[3]);
+  //t_float *in     = (t_float *)(w[3]);
   t_float *out    = (t_float *)(w[4]);
-  t_bfftctl *ctl  = (t_bfftctl *)(w[1]);
+  //t_bfftctl *ctl  = (t_bfftctl *)(w[1]);
 
 
   int n = (int)(w[2]);
@@ -234,7 +234,6 @@ static void bfft_free(t_bfft *x)
 static void *bfft_new(void)
 {
     t_bfft *x = (t_bfft *)pd_new(bfft_class);
-    int i;
 
     outlet_new(&x->x_obj, gensym("signal")); 
 
@@ -252,7 +251,6 @@ static void *bfft_new(void)
 static void *ibfft_new(t_symbol *s)
 {
     t_bfft *x = (t_bfft *)pd_new(ibfft_class);
-    int i;
 
     outlet_new(&x->x_obj, gensym("signal")); 
 
@@ -277,7 +275,6 @@ static void *ibfft_new(t_symbol *s)
 static void *fht_new(void)
 {
     t_bfft *x = (t_bfft *)pd_new(fht_class);
-    int i;
 
     outlet_new(&x->x_obj, gensym("signal")); 
 

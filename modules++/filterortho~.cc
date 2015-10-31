@@ -33,7 +33,7 @@ typedef struct filterortho_struct
     DSPIfilterOrtho *filterortho;
 } t_filterortho;
 
-void filterortho_bang(t_filterortho *x)
+void filterortho_bang(t_filterortho *x  __attribute__((__unused__)))
 {
 
 }

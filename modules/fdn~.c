@@ -129,7 +129,6 @@ static void fdn_print(t_fdn *x)
 
 static void fdn_reset(t_fdn *x)
 {
-  int i;
   if (x->x_ctl.c_buf) 
       memset(x->x_ctl.c_buf, 0, x->x_ctl.c_bufsize 
 	     * sizeof(t_float));
@@ -150,8 +149,8 @@ static t_int *fdn_perform(t_int *w)
   t_float *outl    = (t_float *)(w[5]);
   t_fdnctl *ctl    = (t_fdnctl *)(w[1]);
   int n            = (int)(w[2]);
-  t_float input    = ctl->c_input;
-  t_float output   = ctl->c_output;
+  //t_float input    = ctl->c_input;
+  //t_float output   = ctl->c_output;
   t_float *gain_in = ctl->c_gain_in;
   t_float *gain_state = ctl->c_gain_state;
   int order        = ctl->c_order;
@@ -160,8 +159,7 @@ static t_int *fdn_perform(t_int *w)
   int mask         = ctl->c_bufsize - 1;
 
   int i,j;
-  t_float x,y,v,left,right,z;
-  t_float filt_in, filt_last;
+  t_float x,y,left,right,z;
 
   t_float *cvec, *lvec;
   
@@ -326,7 +324,7 @@ static void fdn_timehigh(t_fdn *x, t_float f){
 
 
 static void fdn_setupdelayline(t_fdn *x){
-  int sum, t, n;
+  int sum, t;
   int mask = x->x_ctl.c_bufsize - 1;
   int start =  x->x_ctl.c_tap[0];
   int *tap = x->x_ctl.c_tap;
@@ -348,10 +346,8 @@ static void fdn_setupdelayline(t_fdn *x){
 
 }
 
-static void fdn_list (t_fdn *x,  t_symbol *s, int argc, t_atom *argv){
+static void fdn_list (t_fdn *x,  t_symbol *s __attribute__((__unused__)), int argc, t_atom *argv){
   int i;
-  t_float l;
-  int sum=0;
 
   int order = argc & 0xfffffffc;
 

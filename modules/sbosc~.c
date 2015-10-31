@@ -143,7 +143,7 @@ static void sbosc_tilde_dsp(t_sbosc_tilde *x, t_signal **sp)
 
 }
 
-static void sbosc_tilde_free(t_sbosc_tilde *x)
+static void sbosc_tilde_free(t_sbosc_tilde *x __attribute__((__unused__)))
 {
 }
 

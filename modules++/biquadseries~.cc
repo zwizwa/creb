@@ -33,9 +33,8 @@ typedef struct biquadseries_struct
     DSPIfilterSeries* biquadseries;
 } t_biquadseries;
 
-void biquadseries_bang(t_biquadseries *x)
+void biquadseries_bang(t_biquadseries *x __attribute__((__unused__)))
 {
-
 }
 
 void biquadseries_butterLP(t_biquadseries *x,  t_floatarg f)

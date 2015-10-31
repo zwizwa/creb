@@ -176,7 +176,7 @@ static void diag_free(t_diag *x)
 t_class *diag_class;
 
 
-static void *diag_new(t_floatarg permute)
+static void *diag_new(t_floatarg permute  __attribute__((__unused__)))
 {
     t_diag *x = (t_diag *)pd_new(diag_class);
     int i, n=64;

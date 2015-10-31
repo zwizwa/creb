@@ -40,11 +40,11 @@ typedef struct bitsplit
 } t_bitsplit;
 
 
-static t_int *bitsplit_perform(t_int *word)
+static t_int *bitsplit_perform(t_int *w)
 {
 
-    t_bitsplitctl *ctl  = (t_bitsplitctl *)(word[1]);
-    int n               = (int)(word[2]);
+    t_bitsplitctl *ctl  = (t_bitsplitctl *)(w[1]);
+    int n               = (int)(w[2]);
     t_float *in         = ctl->c_input;
     int outputs         = ctl->c_outputs;
     t_float **out       = ctl->c_output;
@@ -58,7 +58,7 @@ static t_int *bitsplit_perform(t_int *word)
 	}
     }
 
-    return (word+3);
+    return (w+3);
 }
 
 

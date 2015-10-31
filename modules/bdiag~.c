@@ -233,7 +233,7 @@ static void bdiag_free(t_bdiag *x)
 t_class *bdiag_class;
 
 
-static void *bdiag_new(t_floatarg permute)
+static void *bdiag_new(t_floatarg permute  __attribute__((__unused__)))
 {
     t_bdiag *x = (t_bdiag *)pd_new(bdiag_class);
     int i, n=64;

@@ -49,7 +49,7 @@ static void matrix_load(t_matrix *x, t_symbol *s)
   if(s && s->s_name)
     {
       post("matrix: loading %s",s->s_name);
-      if(matrix = fopen(s->s_name, "r"))
+      if((matrix = fopen(s->s_name, "r")))
 	{
 	  int n = x->x_ctl.c_order;
 	  fread(x->x_ctl.c_A, sizeof(float), n*n, matrix);
@@ -89,7 +89,7 @@ static t_int *matrix_perform(t_int *w)
 static void matrix_dsp(t_matrix *x, t_signal **sp)
 {
   int n = sp[0]->s_n;
-  int k,i;
+  int i;
 
   if (x->x_ctl.c_order != n)
     {
@@ -116,11 +116,10 @@ static void matrix_free(t_matrix *x)
 
 t_class *matrix_class;
 
-static void *matrix_new(t_floatarg order)
+static void *matrix_new(t_floatarg order __attribute__((__unused__)))
 {
     t_matrix *x = (t_matrix *)pd_new(matrix_class);
-    int iorder = (int)order;
-    int i, n=64, k;
+    int i, n=64;
 
 
     /* out 1 */

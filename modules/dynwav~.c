@@ -43,6 +43,7 @@ typedef struct dynwav
 } t_dynwav;
 
 
+#if 0
 static t_int *dynwav_perform(t_int *w)
 {
 
@@ -107,6 +108,7 @@ static t_int *dynwav_perform(t_int *w)
     }
   return (w+6);
 }
+#endif
 
 static t_int *dynwav_perform_8point(t_int *w) 
 /* FIXME: i thought this was broken. */
@@ -277,11 +279,10 @@ static void dynwav_free(t_dynwav *x)
 
 t_class *dynwav_class;
 
-static void *dynwav_new(t_floatarg order)
+static void *dynwav_new(t_floatarg order  __attribute__((__unused__)))
 {
     t_dynwav *x = (t_dynwav *)pd_new(dynwav_class);
-    int iorder = (int)order;
-    int i, n=64, k;
+    int n=64, k;
 
     /* in 2 */
     inlet_new(&x->x_obj, &x->x_obj.ob_pd, gensym("signal"), gensym("signal"));  

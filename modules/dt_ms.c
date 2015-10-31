@@ -55,7 +55,7 @@ static void dt_ms_bang(t_dt_ms *x) {
     outlet_float(x->x_outlet_dt, f_ms);
 }
 
-static void dt_ms_free(t_dt_ms *x) {
+static void dt_ms_free(t_dt_ms *x  __attribute__((__unused__))) {
 }
 
 t_class *dt_ms_class;

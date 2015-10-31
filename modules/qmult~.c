@@ -135,14 +135,14 @@ static void qmult_dsp(t_qmult *x, t_signal **sp)
 }                                  
 
 
-static void qmult_free(t_qmult *x)
+static void qmult_free(t_qmult *x __attribute__((__unused__)))
 {
 
 }
 
 t_class *qmult_class;
 
-static void *qmult_new(t_floatarg channels)
+static void *qmult_new(t_floatarg channels __attribute__((__unused__)))
 {
     int i;
     t_qmult *x = (t_qmult *)pd_new(qmult_class);

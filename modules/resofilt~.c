@@ -352,8 +352,6 @@ static t_int *resofilt_perform_threepole(t_int *w)
 
 static void resofilt_dsp(t_resofilt *x, t_signal **sp)
 {
-  int n = sp[0]->s_n;
-
   dsp_add(x->x_dsp,
 	  6, 
 	  &x->x_ctl, 
@@ -364,7 +362,7 @@ static void resofilt_dsp(t_resofilt *x, t_signal **sp)
 	  sp[3]->s_vec);
 
 }                                  
-static void resofilt_free(t_resofilt *x)
+static void resofilt_free(t_resofilt *x __attribute__((__unused__)))
 {
 
 

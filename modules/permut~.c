@@ -69,7 +69,7 @@ static void permut_random(t_permut *x, t_floatarg seed)
   int N = x->x_ctl.c_blocksize;
   int mask = N-1;
   int *p = x->x_ctl.c_permutationtable;
-  int r, last = 0;
+  int r;
   t_permutflint flintseed;
   
   flintseed.f = (float)seed;
@@ -133,7 +133,6 @@ static t_int *permut_perform(t_int *w)
   t_permutctl *ctl  = (t_permutctl *)(w[1]);
   int i;
   int n = (int)(w[2]);
-  t_float x,y;
   int *p =  ctl->c_permutationtable;
 
 

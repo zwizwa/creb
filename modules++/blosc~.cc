@@ -51,7 +51,7 @@
 /* sample buffers */
 static t_float bli[N]; // band limited impulse
 static t_float bls[N]; // band limited step
-static t_float blr[N]; // band limited ramp
+//static t_float blr[N]; // band limited ramp
 
 
 typedef struct bloscctl
@@ -321,7 +321,7 @@ static t_int *blosc_perform_hardsync_saw(t_int *w)
     t_float *out    = (t_float *)(w[5]);
     t_bloscctl *ctl = (t_bloscctl *)(w[1]);
     int n           = (int)(w[2]);
-    int i;
+    //int i;
 
     /* set postfilter cutoff */
     ctl->c_butter->setButterHP(0.85 * (*freq / sys_getsr()));
@@ -356,7 +356,7 @@ static t_int *blosc_perform_saw(t_int *w)
     t_float *out      = (t_float *)(w[4]);
     t_bloscctl *ctl   = (t_bloscctl *)(w[1]);
     int n             = (int)(w[2]);
-    int i;
+    //int i;
     
     while (n--) {
 	t_float frequency = *freq++;
@@ -386,7 +386,7 @@ static t_int *blosc_perform_pulse(t_int *w)
     t_float *out      = (t_float *)(w[4]);
     t_bloscctl *ctl   = (t_bloscctl *)(w[1]);
     int n             = (int)(w[2]);
-    int i;
+    //int i;
 
 
     /* set postfilter cutoff */
@@ -418,7 +418,7 @@ static t_int *blosc_perform_comparator(t_int *w)
     t_float *out      = (t_float *)(w[4]);
     t_bloscctl *ctl   = (t_bloscctl *)(w[1]);
     int n             = (int)(w[2]);
-    int i;
+    //int i;
     t_float prev_amp = ctl->c_prev_amp;
     
     while (n--) {
@@ -454,10 +454,10 @@ static void blosc_phase(t_blosc *x, t_float f)
     x->x_ctl.c_phase2 = _float_to_phase(f);
 }
 
-static void blosc_phase1(t_blosc *x, t_float f)
-{
-    x->x_ctl.c_phase = _float_to_phase(f);
-}
+//static void blosc_phase1(t_blosc *x, t_float f)
+//{
+//    x->x_ctl.c_phase = _float_to_phase(f);
+//}
 
 static void blosc_phase2(t_blosc *x, t_float f)
 {
@@ -466,7 +466,7 @@ static void blosc_phase2(t_blosc *x, t_float f)
 
 static void blosc_dsp(t_blosc *x, t_signal **sp)
 {
-  int n = sp[0]->s_n;
+  //int n = sp[0]->s_n;
 
   /* set sampling rate scaling for phasors */
   x->x_ctl.c_phase_inc_scale = 4.0 * ((t_float)(1<<(LPHASOR-2))) / sys_getsr();
@@ -631,6 +631,7 @@ static inline t_float _i2theta(int i, int size){
 
 
 /* print matlab array */
+#if 0
 static void _printm(t_float *array, char *name, int size)
 {
     int i;
@@ -640,8 +641,10 @@ static void _printm(t_float *array, char *name, int size)
     }
     fprintf(stderr, "];\n");
 }
+#endif
 
 /* store oversampled waveform as decimated chunks */
+#if 0
 static void _store_decimated(t_float *dst, t_float *src, t_float scale, int size)
 {
     int i;
@@ -652,6 +655,7 @@ static void _store_decimated(t_float *dst, t_float *src, t_float scale, int size
     }    
 
 }
+#endif
 
 /* store waveform as one chunk */
 static void _store(t_float *dst, t_float *src, t_float scale, int size)
@@ -675,8 +679,7 @@ static void build_tables(void)
     t_float real[M];
     t_float imag[M];
     t_float sum,scale;
-    int i,j;
-
+    int i;
 
     /* create windowed sinc */
     _clear(imag, M); 

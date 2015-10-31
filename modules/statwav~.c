@@ -53,7 +53,7 @@ static t_int *statwav_tilde_perform(t_int *w)
     int n = (int)(w[4]);
     t_float maxindex;
     int imaxindex;
-    t_float *buf = x->x_vec, *fp;
+    t_float *buf = x->x_vec;
     int i;
 
     maxindex = x->x_npoints;
@@ -70,7 +70,6 @@ static t_int *statwav_tilde_perform(t_int *w)
       int index;
       int ia, ib, ic, id;
       t_float frac,  a,  b,  c,  d, cminusb;
-      static int count;
 
       if (modphase < 0.0) modphase += 1.0;
       findex = modphase * maxindex;
@@ -133,7 +132,7 @@ static void statwav_tilde_dsp(t_statwav_tilde *x, t_signal **sp)
 
 }
 
-static void statwav_tilde_free(t_statwav_tilde *x)
+static void statwav_tilde_free(t_statwav_tilde *x __attribute__((__unused__)))
 {
 }
 

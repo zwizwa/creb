@@ -37,9 +37,7 @@ static t_int *cmath_perform_clog(t_int *w)
     t_float *iny    = (float *)(w[3]);
     t_float *outx    = (float *)(w[5]); // clockwize addressing
     t_float *outy    = (float *)(w[4]);
-    int i;
     int n = (int)(w[1]);
-    t_float x;
 
     while (n--){
 	float x = *inx++;
@@ -63,9 +61,7 @@ static t_int *cmath_perform_cexp(t_int *w)
     t_float *iny    = (float *)(w[3]);
     t_float *outx    = (float *)(w[5]); // clockwize addressing
     t_float *outy    = (float *)(w[4]);
-    int i;
     int n = (int)(w[1]);
-    t_float x;
 
     while (n--){
 	float x = *inx++;
@@ -84,9 +80,7 @@ static t_int *cmath_perform_nfft(t_int *w)
     t_float *iny    = (float *)(w[3]);
     t_float *outx    = (float *)(w[5]); // clockwize addressing
     t_float *outy    = (float *)(w[4]);
-    int i;
     int n = (int)(w[1]);
-    t_float x;
     t_float scale = 1.0f / (sqrt((float)n));
 
     mayer_fft(n, inx, outx);
@@ -107,9 +101,7 @@ static t_int *cmath_perform_nifft(t_int *w)
     t_float *iny    = (float *)(w[3]);
     t_float *outx    = (float *)(w[5]); // clockwize addressing
     t_float *outy    = (float *)(w[4]);
-    int i;
     int n = (int)(w[1]);
-    t_float x;
     t_float scale = 1.0f / (sqrt((float)n));
 
     mayer_ifft(n, inx, outx);

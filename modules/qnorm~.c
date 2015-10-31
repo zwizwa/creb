@@ -107,14 +107,14 @@ static void qnorm_dsp(t_qnorm *x, t_signal **sp)
 }                                  
 
 
-static void qnorm_free(t_qnorm *x)
+static void qnorm_free(t_qnorm *x __attribute__((__unused__)))
 {
 
 }
 
 t_class *qnorm_class;
 
-static void *qnorm_new(t_floatarg channels)
+static void *qnorm_new(t_floatarg channels __attribute__((__unused__)))
 {
     int i;
     t_qnorm *x = (t_qnorm *)pd_new(qnorm_class);

@@ -155,9 +155,6 @@ static t_int *tabreadmix_tilde_perform(t_int *w)
 static void tabreadmix_tilde_blocksize(t_tabreadmix_tilde *x, t_float size)
 {
     double prev_phase;
-    int max;
-
-    t_float fmax = (t_float)x->x_wrap_length * 0.5;
 
     if (size < 1.0) size = 1.0;
 //    post( "got input size %f\n", size );
@@ -228,7 +225,7 @@ void tabreadmix_tilde_chunks(t_tabreadmix_tilde *x, t_float f)
     tabreadmix_tilde_blocksize(x, (t_float)x->x_npoints / f);
 }
 
-void tabreadmix_tilde_bang(t_tabreadmix_tilde *x, t_float f)
+void tabreadmix_tilde_bang(t_tabreadmix_tilde *x)
 {
     //trigger a chunk reset on next dsp call
     x->x_xfade_phase = x->x_xfade_size;
@@ -280,7 +277,7 @@ static void tabreadmix_tilde_dsp(t_tabreadmix_tilde *x, t_signal **sp)
 
 }
 
-static void tabreadmix_tilde_free(t_tabreadmix_tilde *x)
+static void tabreadmix_tilde_free(t_tabreadmix_tilde *x __attribute__((__unused__)))
 {
 }
 

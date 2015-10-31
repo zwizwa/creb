@@ -85,6 +85,7 @@ static void dwt_even(t_dwt *x, t_floatarg f)
     }
 }
 
+#if 0
 static void dwt_wavelet(t_dwt *x, t_floatarg f)
 {
   int k = (int)f;
@@ -144,6 +145,7 @@ static void dwt_wavelet(t_dwt *x, t_floatarg f)
       break;
     }
 }
+#endif
 
 static inline void dwt_perform_permutation(t_float *S, int n, int *f)
 {
@@ -339,11 +341,11 @@ static inline void dwtloop16(float *vector,
 		     int numcoef, 
 		     int mask,
 		     float *filter,
-		     int filtlength, /* ignored, set to 16 */
+		     int filtlength  __attribute__((__unused__)), /* ignored, set to 16 */
 		     float sign)
 {
 
-  int k,m;
+  int k;
   float acc;
 
   for (k = 0; k < numcoef; k++)
@@ -767,7 +769,6 @@ static void dwt_reset(t_dwt *x)
 static void *dwt_new_common(t_floatarg permute)
 {
     t_dwt *x = (t_dwt *)pd_new(dwt_class);
-    int i;
 
     outlet_new(&x->x_obj, gensym("signal")); 
 

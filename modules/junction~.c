@@ -77,7 +77,6 @@ static t_int *junction_perform(t_int *w)
   t_junctionctl *ctl  = (t_junctionctl *)(w[1]);
   int n               = (int)(w[2]);
   int i,j;
-  t_float x,y;
 
   int c               = ctl->c_channels;
   t_float **in        = ctl->c_in;

@@ -120,7 +120,7 @@ static void ead_free(void)
 
 /* constructor */
 static void *ead_new(t_floatarg attack, t_floatarg decay, 
-		     t_floatarg sustain, t_floatarg release)
+		     t_floatarg sustain  __attribute__((__unused__)), t_floatarg release  __attribute__((__unused__)))
 {
     /* create instance */
     t_ead *x = (t_ead *)pd_new(ead_class);

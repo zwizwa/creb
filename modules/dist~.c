@@ -49,7 +49,7 @@ typedef struct dist
   t_distctl x_ctl;
 } t_dist;
 
-void dist_bang(t_dist *x)
+void dist_bang(t_dist *x  __attribute__((__unused__)))
 {
 
 }
@@ -71,7 +71,7 @@ static t_int *dist_perform(t_int *w)
   t_float gain  = ctl->c_gain;
   int i;
   int n = (int)(w[2]);
-  t_float x,y,v;
+  t_float x,y;
   t_float z = ctl->c_delay;
 
   switch(ctl->c_type){

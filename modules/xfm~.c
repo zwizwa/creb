@@ -196,10 +196,6 @@ static t_int *xfm_perform(t_int *w)
 
 static void xfm_dsp(t_xfm *x, t_signal **sp)
 {
-  int n = sp[0]->s_n;
-  int k;
-
-
   dsp_add(xfm_perform, 
 	  8, 
 	  &x->x_ctl, 
@@ -213,7 +209,7 @@ static void xfm_dsp(t_xfm *x, t_signal **sp)
 
 
 }                                  
-static void xfm_free(t_xfm *x)
+static void xfm_free(t_xfm *x __attribute__((__unused__)))
 {
 
 
