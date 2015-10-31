@@ -25,7 +25,6 @@ The GNU Public Licence can be found in the file COPYING
 This is a collection of pd externals. My bag of tricks.
 
 To build:
-./configure
 make
 
 To run:
